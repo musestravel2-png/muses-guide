@@ -316,13 +316,27 @@ async function load(){
   document.documentElement.lang = lang;
   if (!SLUG){ return renderState("na"); }
   const qs = new URLSearchParams({ v: SLUG, lang: lang }); ["k","h","p"].forEach(x => { if (KEY[x]) qs.set(x, KEY[x]); });
-  try {
-    const r = await fetch("/api/guide?" + qs.toString());
-    const j = await r.json();
-    if (!j || !j.ok) return renderState(j && j.code === "UPSTREAM" ? "err" : "na");
-    D = j; render();
-    if (D.villa.coords && !WX) loadWeather(D.villa.coords);
-  } catch (e) { renderState("err"); }
+  const seq = (load._seq = (load._seq || 0) + 1);
+  if (!D) $("#app").innerHTML = `<div class="state"><div class="spin" aria-label="Loading"></div></div>`;
+  // Έως 3 προσπάθειες για προσωρινά σφάλματα (αργό δίκτυο κινητού, Apps Script που «ξυπνάει»)
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    let j = null;
+    try {
+      const ac = new AbortController(), t = setTimeout(() => ac.abort(), 35000);
+      const r = await fetch("/api/guide?" + qs.toString(), { signal: ac.signal, cache: "no-store" });
+      clearTimeout(t);
+      j = await r.json();
+    } catch (e) { j = null; }
+    if (seq !== load._seq) return;               // άλλαξε γλώσσα στο μεταξύ
+    if (j && j.ok) {
+      D = j; render();
+      if (D.villa.coords && !WX) loadWeather(D.villa.coords);
+      return;
+    }
+    if (j && (j.code === "NOT_FOUND" || j.code === "NOT_PUBLISHED" || j.code === "BAD_REQUEST")) return renderState("na");
+    if (attempt < 3) await new Promise(res => setTimeout(res, attempt * 1500));
+  }
+  if (seq === load._seq) renderState("err");
 }
 async function loadWeather(c){
   try { const r = await fetch("/api/weather?lat=" + c[0] + "&lng=" + c[1]); const j = await r.json(); if (j && j.ok && j.days && j.days.length){ WX = j.days; renderChips(); renderFooter(); } } catch (e) {}
