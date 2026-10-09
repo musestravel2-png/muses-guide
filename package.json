@@ -1,0 +1,6 @@
+{
+  "name": "muses-guide",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=18" }
+}
