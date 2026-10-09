@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Muses · Villa Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600&family=Noto+Serif+Display:ital,wght@0,400;0,500;1,400&display=swap">
+<style>
+/* Μία ήρεμη στήλη (έως 560px) για κινητό: κορυφή, σταθερές ενότητες, κάρτες μόνο για ό,τι πατάει ο επισκέπτης. */
+:root{
+  --paper:#F9F9F8; --card:#FFFFFF; --ink:#1C1917; --muted:#6B645B; --line:#E6E4DF;
+  --accent:#241E5A; --accent-soft:#EEEDF6; --on-accent:#FFFFFF; --ok:#2F6B4F; --warn-bg:#FDF4E7; --warn:#8A5A12;
+  --display:"Noto Serif Display", Didot, Georgia, serif;
+  --body:"Commissioner", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono:ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){ :root{
+  --paper:#111015; --card:#1A1920; --ink:#ECEAE5; --muted:#A29C93; --line:#2D2B35;
+  --accent:#B8B2F5; --accent-soft:#25223E; --on-accent:#15122E; --ok:#7CC4A0; --warn-bg:#2E2614; --warn:#E6C27A; color-scheme:dark } }
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 16px/1.55 var(--body);-webkit-font-smoothing:antialiased;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
+a{color:inherit}
+button,select,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+[hidden]{display:none!important}
+.wrap{max-width:560px;margin:0 auto;padding:0 16px 104px}
+.banner{max-width:560px;margin:12px auto 0;padding:0 16px}
+.banner div{background:var(--warn-bg);color:var(--warn);border-radius:12px;padding:10px 14px;font-size:14px}
+.hero{margin-top:16px;border-radius:18px;overflow:hidden;position:relative;background:#8FA9C4;aspect-ratio:16/10;max-width:100%}
+.hero img,.hero svg{display:block;width:100%;height:100%;object-fit:cover}
+.lang{position:absolute;top:12px;right:12px}
+.lang select{appearance:none;-webkit-appearance:none;background:rgba(20,18,40,.55);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:6px 30px 6px 12px;font-size:13px;backdrop-filter:blur(6px);cursor:pointer;
+  background-image:linear-gradient(45deg,transparent 50%,#fff 50%),linear-gradient(135deg,#fff 50%,transparent 50%);background-position:calc(100% - 15px) 52%,calc(100% - 10px) 52%;background-size:5px 5px;background-repeat:no-repeat}
+.lang select option{color:#1C1917}
+.title{padding:20px 0 4px}
+.kicker{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 6px;font-weight:500}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(2.3rem,9vw,3.2rem);line-height:1.04;margin:0;text-wrap:balance}
+.area{margin:8px 0 0;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:5px 12px;font-size:13.5px;font-variant-numeric:tabular-nums}
+.chip i{font-style:normal;color:var(--muted)}
+.me{margin-top:18px;background:var(--accent);color:var(--on-accent);border-radius:16px;padding:18px}
+.me h2{font-family:var(--display);font-weight:400;font-size:1.65rem;margin:0 0 10px;line-height:1.15}
+.me dl{display:grid;grid-template-columns:1fr 1fr;gap:4px 16px;margin:0}
+.me dt{font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.75}
+.me dd{margin:0 0 4px;font-weight:500}
+.me p{margin:8px 0 0;font-size:14px;opacity:.9}
+.coupon{margin-top:16px;border:1.5px dashed var(--accent);border-radius:16px;background:var(--accent-soft);padding:16px 18px;display:grid;gap:6px}
+.coupon .eb{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.coupon h2{font-family:var(--display);font-weight:400;font-size:1.7rem;line-height:1.1;margin:0}
+.coupon p{margin:0;font-size:14.5px}
+.coupon .cc{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;margin-top:6px}
+.coupon .v{font-family:var(--mono);font-size:18px;letter-spacing:.14em;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 12px;user-select:all}
+.coupon a.go{background:var(--accent);color:var(--on-accent);text-decoration:none;border-radius:999px;padding:9px 16px;font-weight:500;font-size:14px}
+.coupon small{color:var(--muted);font-size:12.5px}
+.quick{display:flex;gap:8px;margin-top:16px}
+.qa{flex:1 1 0;min-width:0;text-align:center;line-height:1.2;padding:6px 8px;display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;border-radius:12px;border:1px solid var(--line);background:var(--card);text-decoration:none;font-weight:500;font-size:14.5px;cursor:pointer}
+.qa svg{width:18px;height:18px;flex:none}
+.qa.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+nav.toc{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(10px);margin:22px -16px 0;padding:10px 16px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none;white-space:nowrap}
+nav.toc::-webkit-scrollbar{display:none}
+nav.toc a{display:inline-block;padding:6px 12px;border-radius:999px;text-decoration:none;font-size:13.5px;color:var(--muted)}
+section{padding:30px 0 6px;scroll-margin-top:64px}
+section + section{border-top:1px solid var(--line);margin-top:24px}
+h2.s{font-family:var(--display);font-weight:400;font-size:1.85rem;line-height:1.1;margin:0 0 14px}
+h3{font-size:12px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:22px 0 8px}
+p{margin:0 0 10px;max-width:65ch}
+.addr{font-weight:500}
+.photos{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:12px}
+.photos a{display:block;aspect-ratio:4/5;max-width:100%;border-radius:10px;overflow:hidden;background:var(--line)}
+.photos img{width:100%;height:100%;object-fit:cover;display:block}
+.pdf{margin:6px 6px 0 0;border:1px solid var(--line);background:var(--card);border-radius:10px;padding:8px 12px;font-size:13.5px;display:inline-flex;gap:8px;align-items:center;text-decoration:none}
+.pdf::before{content:"PDF";font-size:10px;font-weight:600;letter-spacing:.06em;background:var(--accent);color:var(--on-accent);border-radius:4px;padding:2px 5px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:6px 16px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0}
+.row + .row{border-top:1px solid var(--line)}
+.row > div{min-width:0}
+.row .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.row .v{font-family:var(--mono);font-size:16px;word-break:break-all;user-select:all}
+.row .t{font-size:15px}
+.copy,.small-btn{flex:none;border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:6px 14px;font-size:13px;cursor:pointer;text-decoration:none}
+.copy.done{color:var(--ok);border-color:var(--ok)}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.fact b{display:block;font-family:var(--display);font-weight:400;font-size:2.1rem;line-height:1}
+.fact span{font-size:13px;color:var(--muted)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.tag{font-size:13px;border-radius:999px;padding:4px 11px;background:var(--accent-soft)}
+details{border-top:1px solid var(--line)}
+details:last-of-type{border-bottom:1px solid var(--line)}
+summary{list-style:none;cursor:pointer;padding:14px 0;display:flex;justify-content:space-between;align-items:center;font-weight:500}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:20px;color:var(--muted);line-height:1;transition:transform .2s}
+details[open] summary::after{transform:rotate(45deg)}
+details .body{padding-bottom:14px}
+ul.list{list-style:none;padding:0;margin:0}
+ul.list li{padding:10px 0;border-top:1px solid var(--line);display:flex;gap:12px}
+ul.list li:last-child{border-bottom:1px solid var(--line)}
+ul.list li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-top:.6em}
+ol.steps{padding:0;margin:0;list-style:none;counter-reset:s;display:grid;gap:10px}
+ol.steps li{counter-increment:s;display:flex;gap:12px;align-items:baseline}
+ol.steps li::before{content:counter(s);font-family:var(--display);font-size:1.4rem;line-height:1;color:var(--accent);min-width:1ch}
+.filters{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:2px 16px 12px}
+.filters::-webkit-scrollbar{display:none}
+.filters button{flex:none;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 13px;font-size:13.5px;cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.poi{display:grid;grid-template-columns:1fr auto;gap:2px 12px;padding:13px 0;border-top:1px solid var(--line)}
+.poi:last-child{border-bottom:1px solid var(--line)}
+.poi .n{font-weight:500;min-width:0}
+.poi .m{font-size:13px;color:var(--muted);grid-column:1}
+.poi .tip{grid-column:1;font-size:14.5px;margin:4px 0 0}
+.poi .pick{display:inline-block;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--accent);margin-left:6px;vertical-align:2px}
+.poi a.map{grid-column:2;grid-row:1 / span 3;align-self:center;font-size:13px;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:6px 12px;background:var(--card)}
+.exps{display:grid;gap:10px}
+.exp{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.exp img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;max-width:100%}
+.exp .in{padding:16px;display:grid;grid-template-columns:1fr auto;gap:4px 14px;align-items:start}
+.exp h4{margin:0;font-family:var(--display);font-weight:400;font-size:1.3rem;line-height:1.2}
+.exp p{margin:2px 0 0;font-size:14.5px;color:var(--muted);grid-column:1}
+.exp .price{grid-column:2;grid-row:1;text-align:right;font-size:13px;color:var(--muted);white-space:nowrap}
+.exp .price b{display:block;color:var(--ink);font-size:16px;font-weight:600}
+.exp button{grid-column:1 / -1;margin-top:10px;justify-self:start;background:var(--accent);color:var(--on-accent);border:0;border-radius:999px;padding:9px 18px;font-weight:500;cursor:pointer}
+.co{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.co b{font-family:var(--display);font-weight:400;font-size:2.6rem;line-height:1}
+.late{margin-top:10px;display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.late a{font-size:14px;font-weight:500}
+.big112{font-family:var(--display);font-size:2rem;line-height:1}
+.share{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.qr{background:#fff;padding:10px;border-radius:12px;border:1px solid var(--line);width:132px;height:132px;flex:none}
+.qr img,.qr canvas{width:112px!important;height:112px!important;display:block}
+.share > div{min-width:0;flex:1 1 200px}
+.url{font-family:var(--mono);font-size:13px;word-break:break-all;color:var(--muted);margin-bottom:8px}
+footer{margin-top:36px;padding-top:18px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted);display:grid;gap:4px}
+footer strong{font-family:var(--display);font-weight:400;font-size:1.2rem;color:var(--ink)}
+.fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:8;display:inline-flex;gap:8px;align-items:center;background:var(--accent);color:var(--on-accent);text-decoration:none;font-weight:500;border-radius:999px;padding:12px 18px;box-shadow:0 6px 24px rgba(20,16,50,.28)}
+.fab svg{width:18px;height:18px}
+dialog{border:0;border-radius:18px;padding:0;width:min(440px,calc(100vw - 32px));background:var(--card);color:var(--ink)}
+dialog::backdrop{background:rgba(15,12,30,.5)}
+dialog form{padding:20px;display:grid;gap:12px}
+dialog h4{margin:0;font-family:var(--display);font-weight:400;font-size:1.5rem}
+dialog label{display:grid;gap:4px;font-size:13px;color:var(--muted)}
+dialog input,dialog textarea{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--paper);font-size:16px;width:100%}
+dialog .acts{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+dialog .acts button{border-radius:999px;padding:10px 18px;border:1px solid var(--line);background:transparent;cursor:pointer}
+dialog .acts button.go{background:var(--accent);color:var(--on-accent);border-color:var(--accent);font-weight:500}
+dialog .err{color:#B42318;font-size:13.5px;margin:0}
+.toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:9px 16px;border-radius:999px;font-size:13.5px;z-index:9;max-width:calc(100vw - 32px)}
+.state{min-height:70vh;display:grid;place-items:center;text-align:center;padding:24px 16px}
+.state h1{font-size:2rem;margin-bottom:10px}
+.spin{width:28px;height:28px;border:3px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+@media (max-width:380px){.photos{grid-template-columns:repeat(2,1fr)}.fact b{font-size:1.8rem}}
+</style>
+</head>
+<body>
+<div id="app"><div class="state"><div class="spin" aria-label="Loading"></div></div></div>
+<a class="fab" id="fab" target="_blank" rel="noopener" hidden></a>
+<dialog id="dlg"><form id="frm" method="dialog" novalidate></form></dialog>
+<div class="toast" id="toast" hidden></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+<script>
+"use strict";
+/* ---------- Λεξικό διεπαφής (το περιεχόμενο έρχεται ήδη μεταφρασμένο από το PMS) ---------- */
+const U = {
+el:{ loc:"el-GR", langName:"Ελληνικά", kicker:"Ο οδηγός της βίλας σας", welcome:"Καλώς ήρθατε, {n}", arr:"Άφιξη", dep:"Αναχώρηση",
+ nav:{arrival:"Άφιξη",wifi:"Wi‑Fi",house:"Το σπίτι",rules:"Κανόνες",nearby:"Γύρω σας",exp:"Εμπειρίες",departure:"Αναχώρηση",emergency:"Έκτακτα"},
+ directions:"Οδηγίες", writeUs:"Γράψτε μας", howToGet:"Πώς θα μας βρείτε", parking:"Πάρκινγκ", wifiNet:"Δίκτυο", wifiPass:"Κωδικός", copy:"Αντιγραφή", copied:"Αντιγράφηκε",
+ bedrooms:"υπνοδωμάτια", baths:"μπάνια", guests:"άτομα", howto:"Πώς λειτουργεί", more:"Περισσότερα", pdf:"Άνοιγμα PDF", trash:"Σκουπίδια & ανακύκλωση", rulesT:"Κανόνες σπιτιού", all:"Όλα",
+ cats:{beach:"Παραλίες",food:"Φαγητό",cafe:"Καφέ & φούρνος",market:"Σούπερ μάρκετ",pharmacy:"Φαρμακεία",health:"Υγεία",fuel:"Βενζίνη",atm:"ATM",sight:"Αξιοθέατα",activity:"Δραστηριότητες",shopping:"Αγορές"},
+ am:{sea:"Θέα θάλασσα",beachWalk:"Παραλία με τα πόδια",pool:"Πισίνα",kidsPool:"Παιδική πισίνα",heatedPool:"Θερμαινόμενη πισίνα",hotTub:"Τζακούζι",garden:"Κήπος με γρασίδι",playground:"Παιδική χαρά",pingPong:"Πινγκ πονγκ",poolTable:"Μπιλιάρδο",gym:"Γυμναστήριο",sauna:"Σάουνα",dryer:"Στεγνωτήριο ρούχων",console:"Κονσόλα παιχνιδιών",fireplace:"Τζάκι",office:"Χώρος εργασίας",bbq:"Μπάρμπεκιου"},
+ pick:"Επιλογή Muses", map:"Χάρτης", km:"χλμ", expT:"Εμπειρίες Muses", expSub:"Κλείστε εδώ, τα υπόλοιπα τα αναλαμβάνουμε εμείς.", publicSub:"Πατήστε «Ενδιαφέρομαι» και θα σας στείλουμε πρόταση στο email σας.",
+ from:"από", pp:"/άτομο", onReq:"Κατόπιν προσφοράς", book:"Κράτηση", interested:"Ενδιαφέρομαι", date:"Ημερομηνία", persons:"Άτομα", note:"Σημείωση (προαιρετικό)", name:"Ονοματεπώνυμο", email:"Email", phoneOpt:"Τηλέφωνο (προαιρετικό)",
+ send:"Αποστολή αιτήματος", sending:"Αποστολή…", close:"Κλείσιμο", sentT:"Το αίτημα καταχωρήθηκε", sentB:"Θα λάβετε την πρόταση στο email σας. Η ομάδα Muses ενημερώθηκε.",
+ errEmail:"Ελέγξτε το email σας.", errName:"Συμπληρώστε το όνομά σας.", errGen:"Κάτι δεν πήγε καλά. Γράψτε μας στο WhatsApp.",
+ coBy:"Check-out έως", late:"Χρειάζεστε late check-out; Γράψτε μας.", lateBtn:"Αίτημα late check-out", before:"Πριν φύγετε", e112:"Ευρωπαϊκός αριθμός έκτακτης ανάγκης", healthC:"Υγεία", pharm:"Φαρμακείο",
+ share:"Μοιραστείτε τον οδηγό", copyLink:"Αντιγραφή link", wx:{sunny:"Ηλιοφάνεια",partly:"Λίγα σύννεφα",cloudy:"Συννεφιά",rain:"Βροχή",storm:"Καταιγίδα"}, hello:"Γεια σας! ", lateMsg:"Θα ήθελα να ζητήσω late check-out.",
+ cEb:"Για την επόμενη φορά", cT:"{p}% για την επόμενη διαμονή σας", cB:"Κλείστε απευθείας στη σελίδα μας με αυτόν τον κωδικό.", cV:"Ισχύει για κρατήσεις έως {d}.", cBtn:"Κράτηση",
+ invalid:"Το προσωπικό link δεν είναι πλέον ενεργό. Βλέπετε τη δημόσια έκδοση του οδηγού.", beforeNote:"Ο πλήρης οδηγός (Wi‑Fi, οδηγίες άφιξης) ανοίγει 7 μέρες πριν την άφιξή σας.", thanks:"Ευχαριστούμε που μείνατε μαζί μας",
+ naT:"Ο οδηγός δεν είναι διαθέσιμος", naB:"Γράψτε μας και θα σας βοηθήσουμε αμέσως.", retry:"Δοκιμή ξανά" },
+en:{ loc:"en-GB", langName:"English", kicker:"Your villa guide", welcome:"Welcome, {n}", arr:"Arrival", dep:"Departure",
+ nav:{arrival:"Arrival",wifi:"Wi‑Fi",house:"The house",rules:"House rules",nearby:"Nearby",exp:"Experiences",departure:"Departure",emergency:"Emergency"},
+ directions:"Directions", writeUs:"Message us", howToGet:"How to find us", parking:"Parking", wifiNet:"Network", wifiPass:"Password", copy:"Copy", copied:"Copied",
+ bedrooms:"bedrooms", baths:"bathrooms", guests:"guests", howto:"How things work", more:"More", pdf:"Open PDF", trash:"Rubbish & recycling", rulesT:"House rules", all:"All",
+ cats:{beach:"Beaches",food:"Food",cafe:"Café & bakery",market:"Supermarkets",pharmacy:"Pharmacies",health:"Health",fuel:"Fuel",atm:"ATM",sight:"Sights",activity:"Activities",shopping:"Shopping"},
+ am:{sea:"Sea view",beachWalk:"Walk to the beach",pool:"Pool",kidsPool:"Kids' pool",heatedPool:"Heated pool",hotTub:"Hot tub",garden:"Lawn garden",playground:"Playground",pingPong:"Table tennis",poolTable:"Pool table",gym:"Gym",sauna:"Sauna",dryer:"Clothes dryer",console:"Game console",fireplace:"Fireplace",office:"Workspace",bbq:"BBQ"},
+ pick:"Muses pick", map:"Map", km:"km", expT:"Muses experiences", expSub:"Book here and we arrange the rest.", publicSub:"Tap “I'm interested” and we'll email you a proposal.",
+ from:"from", pp:"/person", onReq:"Price on request", book:"Book", interested:"I'm interested", date:"Date", persons:"Guests", note:"Note (optional)", name:"Full name", email:"Email", phoneOpt:"Phone (optional)",
+ send:"Send request", sending:"Sending…", close:"Close", sentT:"Request received", sentB:"You'll receive our proposal by email. The Muses team has been notified.",
+ errEmail:"Please check your email address.", errName:"Please add your name.", errGen:"Something went wrong. Please message us on WhatsApp.",
+ coBy:"Check-out by", late:"Need a late check-out? Message us.", lateBtn:"Ask for late check-out", before:"Before you leave", e112:"European emergency number", healthC:"Health", pharm:"Pharmacy",
+ share:"Share this guide", copyLink:"Copy link", wx:{sunny:"Sunny",partly:"Partly cloudy",cloudy:"Cloudy",rain:"Rain",storm:"Thunderstorm"}, hello:"Hello! ", lateMsg:"I'd like to ask for a late check-out.",
+ cEb:"For next time", cT:"{p}% off your next stay", cB:"Book directly on our website with this code.", cV:"Valid for bookings made by {d}.", cBtn:"Book",
+ invalid:"This personal link is no longer active. You are viewing the public guide.", beforeNote:"Your full guide (Wi‑Fi, arrival directions) opens 7 days before arrival.", thanks:"Thank you for staying with us",
+ naT:"This guide is not available", naB:"Message us and we'll help right away.", retry:"Try again" },
+de:{ loc:"de-DE", langName:"Deutsch", kicker:"Ihr Villen-Guide", welcome:"Willkommen, {n}", arr:"Anreise", dep:"Abreise",
+ nav:{arrival:"Anreise",wifi:"WLAN",house:"Das Haus",rules:"Hausregeln",nearby:"Umgebung",exp:"Erlebnisse",departure:"Abreise",emergency:"Notfall"},
+ directions:"Route", writeUs:"Schreiben Sie uns", howToGet:"So finden Sie uns", parking:"Parken", wifiNet:"Netzwerk", wifiPass:"Passwort", copy:"Kopieren", copied:"Kopiert",
+ bedrooms:"Schlafzimmer", baths:"Bäder", guests:"Gäste", howto:"So funktioniert's", more:"Mehr", pdf:"PDF öffnen", trash:"Müll & Recycling", rulesT:"Hausregeln", all:"Alle",
+ cats:{beach:"Strände",food:"Essen",cafe:"Café & Bäckerei",market:"Supermärkte",pharmacy:"Apotheken",health:"Gesundheit",fuel:"Tankstellen",atm:"Geldautomat",sight:"Sehenswertes",activity:"Aktivitäten",shopping:"Einkaufen"},
+ am:{sea:"Meerblick",beachWalk:"Strand zu Fuß",pool:"Pool",kidsPool:"Kinderbecken",heatedPool:"Beheizter Pool",hotTub:"Whirlpool",garden:"Rasengarten",playground:"Spielplatz",pingPong:"Tischtennis",poolTable:"Billardtisch",gym:"Fitnessraum",sauna:"Sauna",dryer:"Wäschetrockner",console:"Spielkonsole",fireplace:"Kamin",office:"Arbeitsplatz",bbq:"Grill"},
+ pick:"Muses-Tipp", map:"Karte", km:"km", expT:"Muses-Erlebnisse", expSub:"Hier buchen – den Rest organisieren wir.", publicSub:"Tippen Sie auf „Interessiert“ und wir senden Ihnen ein Angebot per E-Mail.",
+ from:"ab", pp:"/Person", onReq:"Preis auf Anfrage", book:"Buchen", interested:"Interessiert", date:"Datum", persons:"Personen", note:"Notiz (optional)", name:"Vor- und Nachname", email:"E-Mail", phoneOpt:"Telefon (optional)",
+ send:"Anfrage senden", sending:"Wird gesendet…", close:"Schließen", sentT:"Anfrage erhalten", sentB:"Sie erhalten unser Angebot per E-Mail. Das Muses-Team ist informiert.",
+ errEmail:"Bitte prüfen Sie Ihre E-Mail-Adresse.", errName:"Bitte geben Sie Ihren Namen ein.", errGen:"Etwas ist schiefgelaufen. Schreiben Sie uns auf WhatsApp.",
+ coBy:"Check-out bis", late:"Späterer Check-out? Schreiben Sie uns.", lateBtn:"Späten Check-out anfragen", before:"Bevor Sie abreisen", e112:"Europäische Notrufnummer", healthC:"Gesundheit", pharm:"Apotheke",
+ share:"Guide teilen", copyLink:"Link kopieren", wx:{sunny:"Sonnig",partly:"Leicht bewölkt",cloudy:"Bewölkt",rain:"Regen",storm:"Gewitter"}, hello:"Hallo! ", lateMsg:"Ich möchte einen späten Check-out anfragen.",
+ cEb:"Für das nächste Mal", cT:"{p}% Rabatt auf Ihren nächsten Aufenthalt", cB:"Buchen Sie direkt auf unserer Website mit diesem Code.", cV:"Gültig für Buchungen bis {d}.", cBtn:"Buchen",
+ invalid:"Dieser persönliche Link ist nicht mehr aktiv. Sie sehen den öffentlichen Guide.", beforeNote:"Ihr vollständiger Guide (WLAN, Anfahrt) öffnet sich 7 Tage vor der Anreise.", thanks:"Danke für Ihren Aufenthalt",
+ naT:"Dieser Guide ist nicht verfügbar", naB:"Schreiben Sie uns, wir helfen sofort.", retry:"Erneut versuchen" },
+fr:{ loc:"fr-FR", langName:"Français", kicker:"Le guide de votre villa", welcome:"Bienvenue, {n}", arr:"Arrivée", dep:"Départ",
+ nav:{arrival:"Arrivée",wifi:"Wi‑Fi",house:"La maison",rules:"Règlement",nearby:"À proximité",exp:"Expériences",departure:"Départ",emergency:"Urgences"},
+ directions:"Itinéraire", writeUs:"Écrivez-nous", howToGet:"Comment nous trouver", parking:"Stationnement", wifiNet:"Réseau", wifiPass:"Mot de passe", copy:"Copier", copied:"Copié",
+ bedrooms:"chambres", baths:"salles de bain", guests:"personnes", howto:"Mode d'emploi", more:"Plus", pdf:"Ouvrir le PDF", trash:"Déchets et recyclage", rulesT:"Règlement intérieur", all:"Tout",
+ cats:{beach:"Plages",food:"Restaurants",cafe:"Café & boulangerie",market:"Supermarchés",pharmacy:"Pharmacies",health:"Santé",fuel:"Carburant",atm:"Distributeur",sight:"À voir",activity:"Activités",shopping:"Shopping"},
+ am:{sea:"Vue mer",beachWalk:"Plage à pied",pool:"Piscine",kidsPool:"Bassin enfants",heatedPool:"Piscine chauffée",hotTub:"Jacuzzi",garden:"Jardin avec pelouse",playground:"Aire de jeux",pingPong:"Ping-pong",poolTable:"Billard",gym:"Salle de sport",sauna:"Sauna",dryer:"Sèche-linge",console:"Console de jeux",fireplace:"Cheminée",office:"Espace de travail",bbq:"Barbecue"},
+ pick:"Choix Muses", map:"Carte", km:"km", expT:"Expériences Muses", expSub:"Réservez ici, nous organisons le reste.", publicSub:"Touchez « Ça m'intéresse » et nous vous enverrons une proposition par e-mail.",
+ from:"à partir de", pp:"/pers.", onReq:"Prix sur demande", book:"Réserver", interested:"Ça m'intéresse", date:"Date", persons:"Personnes", note:"Remarque (facultatif)", name:"Nom et prénom", email:"E-mail", phoneOpt:"Téléphone (facultatif)",
+ send:"Envoyer la demande", sending:"Envoi…", close:"Fermer", sentT:"Demande reçue", sentB:"Vous recevrez notre proposition par e-mail. L'équipe Muses est informée.",
+ errEmail:"Vérifiez votre adresse e-mail.", errName:"Indiquez votre nom.", errGen:"Une erreur s'est produite. Écrivez-nous sur WhatsApp.",
+ coBy:"Départ avant", late:"Besoin d'un départ tardif ? Écrivez-nous.", lateBtn:"Demander un départ tardif", before:"Avant de partir", e112:"Numéro d'urgence européen", healthC:"Santé", pharm:"Pharmacie",
+ share:"Partager ce guide", copyLink:"Copier le lien", wx:{sunny:"Ensoleillé",partly:"Partiellement nuageux",cloudy:"Nuageux",rain:"Pluie",storm:"Orage"}, hello:"Bonjour ! ", lateMsg:"Je souhaite demander un départ tardif.",
+ cEb:"Pour la prochaine fois", cT:"{p}% de remise sur votre prochain séjour", cB:"Réservez directement sur notre site avec ce code.", cV:"Valable pour les réservations jusqu'au {d}.", cBtn:"Réserver",
+ invalid:"Ce lien personnel n'est plus actif. Vous consultez le guide public.", beforeNote:"Votre guide complet (Wi‑Fi, itinéraire d'arrivée) s'ouvre 7 jours avant votre arrivée.", thanks:"Merci d'avoir séjourné chez nous",
+ naT:"Ce guide n'est pas disponible", naB:"Écrivez-nous, nous vous aidons tout de suite.", retry:"Réessayer" },
+nl:{ loc:"nl-NL", langName:"Nederlands", kicker:"Uw villagids", welcome:"Welkom, {n}", arr:"Aankomst", dep:"Vertrek",
+ nav:{arrival:"Aankomst",wifi:"Wifi",house:"Het huis",rules:"Huisregels",nearby:"In de buurt",exp:"Belevenissen",departure:"Vertrek",emergency:"Noodgeval"},
+ directions:"Route", writeUs:"Stuur ons een bericht", howToGet:"Zo vindt u ons", parking:"Parkeren", wifiNet:"Netwerk", wifiPass:"Wachtwoord", copy:"Kopiëren", copied:"Gekopieerd",
+ bedrooms:"slaapkamers", baths:"badkamers", guests:"gasten", howto:"Zo werkt het", more:"Meer", pdf:"PDF openen", trash:"Afval & recycling", rulesT:"Huisregels", all:"Alles",
+ cats:{beach:"Stranden",food:"Eten",cafe:"Café & bakker",market:"Supermarkten",pharmacy:"Apotheken",health:"Gezondheid",fuel:"Tankstation",atm:"Geldautomaat",sight:"Bezienswaardig",activity:"Activiteiten",shopping:"Winkelen"},
+ am:{sea:"Zeezicht",beachWalk:"Strand op loopafstand",pool:"Zwembad",kidsPool:"Kinderbad",heatedPool:"Verwarmd zwembad",hotTub:"Bubbelbad",garden:"Tuin met gazon",playground:"Speeltuin",pingPong:"Tafeltennis",poolTable:"Biljarttafel",gym:"Fitnessruimte",sauna:"Sauna",dryer:"Wasdroger",console:"Spelconsole",fireplace:"Open haard",office:"Werkplek",bbq:"Barbecue"},
+ pick:"Muses-tip", map:"Kaart", km:"km", expT:"Muses-belevenissen", expSub:"Boek hier, wij regelen de rest.", publicSub:"Tik op „Interesse” en we mailen u een voorstel.",
+ from:"vanaf", pp:"/pers.", onReq:"Prijs op aanvraag", book:"Boeken", interested:"Interesse", date:"Datum", persons:"Personen", note:"Opmerking (optioneel)", name:"Volledige naam", email:"E-mail", phoneOpt:"Telefoon (optioneel)",
+ send:"Aanvraag versturen", sending:"Verzenden…", close:"Sluiten", sentT:"Aanvraag ontvangen", sentB:"U ontvangt ons voorstel per e-mail. Het Muses-team is op de hoogte.",
+ errEmail:"Controleer uw e-mailadres.", errName:"Vul uw naam in.", errGen:"Er ging iets mis. Stuur ons een bericht via WhatsApp.",
+ coBy:"Uitchecken vóór", late:"Later uitchecken? Stuur ons een bericht.", lateBtn:"Later uitchecken aanvragen", before:"Voor vertrek", e112:"Europees alarmnummer", healthC:"Gezondheid", pharm:"Apotheek",
+ share:"Deel deze gids", copyLink:"Link kopiëren", wx:{sunny:"Zonnig",partly:"Half bewolkt",cloudy:"Bewolkt",rain:"Regen",storm:"Onweer"}, hello:"Hallo! ", lateMsg:"Ik wil graag later uitchecken.",
+ cEb:"Voor de volgende keer", cT:"{p}% korting op uw volgende verblijf", cB:"Boek rechtstreeks via onze website met deze code.", cV:"Geldig voor boekingen tot en met {d}.", cBtn:"Boeken",
+ invalid:"Deze persoonlijke link is niet meer actief. U ziet de openbare gids.", beforeNote:"Uw volledige gids (wifi, aankomstroute) opent 7 dagen voor aankomst.", thanks:"Bedankt voor uw verblijf",
+ naT:"Deze gids is niet beschikbaar", naB:"Stuur ons een bericht, we helpen meteen.", retry:"Opnieuw proberen" },
+pl:{ loc:"pl-PL", langName:"Polski", kicker:"Przewodnik po willi", welcome:"Witamy, {n}", arr:"Przyjazd", dep:"Wyjazd",
+ nav:{arrival:"Przyjazd",wifi:"Wi‑Fi",house:"Dom",rules:"Zasady",nearby:"W okolicy",exp:"Atrakcje",departure:"Wyjazd",emergency:"Pomoc"},
+ directions:"Nawiguj", writeUs:"Napisz do nas", howToGet:"Jak do nas trafić", parking:"Parking", wifiNet:"Sieć", wifiPass:"Hasło", copy:"Kopiuj", copied:"Skopiowano",
+ bedrooms:"sypialnie", baths:"łazienki", guests:"osób", howto:"Jak to działa", more:"Więcej", pdf:"Otwórz PDF", trash:"Śmieci i recykling", rulesT:"Zasady domu", all:"Wszystko",
+ cats:{beach:"Plaże",food:"Jedzenie",cafe:"Kawiarnia i piekarnia",market:"Supermarkety",pharmacy:"Apteki",health:"Zdrowie",fuel:"Paliwo",atm:"Bankomat",sight:"Zabytki",activity:"Aktywności",shopping:"Zakupy"},
+ am:{sea:"Widok na morze",beachWalk:"Plaża w zasięgu spaceru",pool:"Basen",kidsPool:"Brodzik dla dzieci",heatedPool:"Podgrzewany basen",hotTub:"Jacuzzi",garden:"Ogród z trawnikiem",playground:"Plac zabaw",pingPong:"Tenis stołowy",poolTable:"Stół bilardowy",gym:"Siłownia",sauna:"Sauna",dryer:"Suszarka do ubrań",console:"Konsola do gier",fireplace:"Kominek",office:"Miejsce do pracy",bbq:"Grill"},
+ pick:"Wybór Muses", map:"Mapa", km:"km", expT:"Atrakcje Muses", expSub:"Zarezerwuj tutaj, resztą zajmiemy się my.", publicSub:"Kliknij „Jestem zainteresowany”, a wyślemy Ci ofertę e-mailem.",
+ from:"od", pp:"/os.", onReq:"Cena na zapytanie", book:"Rezerwuj", interested:"Jestem zainteresowany", date:"Data", persons:"Liczba osób", note:"Uwagi (opcjonalnie)", name:"Imię i nazwisko", email:"E-mail", phoneOpt:"Telefon (opcjonalnie)",
+ send:"Wyślij zapytanie", sending:"Wysyłanie…", close:"Zamknij", sentT:"Zapytanie przyjęte", sentB:"Ofertę otrzymasz e-mailem. Zespół Muses został powiadomiony.",
+ errEmail:"Sprawdź adres e-mail.", errName:"Podaj imię i nazwisko.", errGen:"Coś poszło nie tak. Napisz do nas na WhatsApp.",
+ coBy:"Wymeldowanie do", late:"Potrzebujesz późniejszego wymeldowania? Napisz do nas.", lateBtn:"Poproś o późne wymeldowanie", before:"Przed wyjazdem", e112:"Europejski numer alarmowy", healthC:"Zdrowie", pharm:"Apteka",
+ share:"Udostępnij przewodnik", copyLink:"Kopiuj link", wx:{sunny:"Słonecznie",partly:"Częściowe zachmurzenie",cloudy:"Pochmurno",rain:"Deszcz",storm:"Burza"}, hello:"Dzień dobry! ", lateMsg:"Chciałbym poprosić o późne wymeldowanie.",
+ cEb:"Na następny raz", cT:"{p}% zniżki na kolejny pobyt", cB:"Zarezerwuj bezpośrednio na naszej stronie z tym kodem.", cV:"Ważny dla rezerwacji do {d}.", cBtn:"Rezerwuj",
+ invalid:"Ten osobisty link nie jest już aktywny. Widzisz publiczną wersję przewodnika.", beforeNote:"Pełny przewodnik (Wi‑Fi, dojazd) otworzy się 7 dni przed przyjazdem.", thanks:"Dziękujemy za pobyt",
+ naT:"Ten przewodnik jest niedostępny", naB:"Napisz do nas, pomożemy od razu.", retry:"Spróbuj ponownie" },
+ro:{ loc:"ro-RO", langName:"Română", kicker:"Ghidul vilei", welcome:"Bun venit, {n}", arr:"Sosire", dep:"Plecare",
+ nav:{arrival:"Sosire",wifi:"Wi‑Fi",house:"Casa",rules:"Reguli",nearby:"În apropiere",exp:"Experiențe",departure:"Plecare",emergency:"Urgențe"},
+ directions:"Navigare", writeUs:"Scrieți-ne", howToGet:"Cum ajungeți", parking:"Parcare", wifiNet:"Rețea", wifiPass:"Parolă", copy:"Copiază", copied:"Copiat",
+ bedrooms:"dormitoare", baths:"băi", guests:"persoane", howto:"Cum funcționează", more:"Mai mult", pdf:"Deschide PDF", trash:"Gunoi și reciclare", rulesT:"Regulile casei", all:"Toate",
+ cats:{beach:"Plaje",food:"Mâncare",cafe:"Cafenea și brutărie",market:"Supermarketuri",pharmacy:"Farmacii",health:"Sănătate",fuel:"Benzinărie",atm:"Bancomat",sight:"Obiective",activity:"Activități",shopping:"Cumpărături"},
+ am:{sea:"Vedere la mare",beachWalk:"Plajă la câțiva pași",pool:"Piscină",kidsPool:"Piscină pentru copii",heatedPool:"Piscină încălzită",hotTub:"Jacuzzi",garden:"Grădină cu gazon",playground:"Loc de joacă",pingPong:"Tenis de masă",poolTable:"Masă de biliard",gym:"Sală de fitness",sauna:"Saună",dryer:"Uscător de rufe",console:"Consolă de jocuri",fireplace:"Șemineu",office:"Spațiu de lucru",bbq:"Grătar"},
+ pick:"Alegerea Muses", map:"Hartă", km:"km", expT:"Experiențe Muses", expSub:"Rezervați aici, noi ne ocupăm de rest.", publicSub:"Apăsați „Sunt interesat” și vă trimitem o ofertă pe e-mail.",
+ from:"de la", pp:"/pers.", onReq:"Preț la cerere", book:"Rezervă", interested:"Sunt interesat", date:"Data", persons:"Persoane", note:"Notă (opțional)", name:"Nume complet", email:"E-mail", phoneOpt:"Telefon (opțional)",
+ send:"Trimite cererea", sending:"Se trimite…", close:"Închide", sentT:"Cerere primită", sentB:"Veți primi oferta noastră pe e-mail. Echipa Muses a fost anunțată.",
+ errEmail:"Verificați adresa de e-mail.", errName:"Completați numele.", errGen:"Ceva nu a funcționat. Scrieți-ne pe WhatsApp.",
+ coBy:"Check-out până la", late:"Aveți nevoie de check-out târziu? Scrieți-ne.", lateBtn:"Cere check-out târziu", before:"Înainte de plecare", e112:"Numărul european de urgență", healthC:"Sănătate", pharm:"Farmacie",
+ share:"Distribuiți ghidul", copyLink:"Copiază linkul", wx:{sunny:"Însorit",partly:"Parțial noros",cloudy:"Înnorat",rain:"Ploaie",storm:"Furtună"}, hello:"Bună ziua! ", lateMsg:"Aș dori să solicit un check-out târziu.",
+ cEb:"Pentru data viitoare", cT:"{p}% reducere la următorul sejur", cB:"Rezervați direct pe site-ul nostru cu acest cod.", cV:"Valabil pentru rezervări până la {d}.", cBtn:"Rezervă",
+ invalid:"Acest link personal nu mai este activ. Vedeți ghidul public.", beforeNote:"Ghidul complet (Wi‑Fi, indicații de sosire) se deschide cu 7 zile înainte de sosire.", thanks:"Vă mulțumim că ați stat la noi",
+ naT:"Acest ghid nu este disponibil", naB:"Scrieți-ne și vă ajutăm imediat.", retry:"Încercați din nou" }
+};
+const DEFAULT_WA = "306987293581";
+
+/* ---------- Κατάσταση ---------- */
+const Q = new URLSearchParams(location.search);
+const SLUG = decodeURIComponent(location.pathname.split("/").filter(Boolean)[0] || "").toLowerCase();
+const KEY = { k: Q.get("k") || "", h: Q.get("h") || "", p: Q.get("p") || "" };
+const store = { get(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }, set(k,v){ try{ localStorage.setItem(k,v); }catch(e){} } };
+let lang = (Q.get("lang") || store.get("muses-guide-lang") || (navigator.language || "en").slice(0,2)).toLowerCase();
+if (lang === "gr") lang = "el";
+if (!U[lang]) lang = "en";
+let D = null, filter = "all", WX = null;
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const safeUrl = u => /^https:\/\//i.test(String(u || "")) ? String(u) : "";
+const IC = {
+  pin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>',
+  wifi:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2.5 9a14 14 0 0 1 19 0M5.5 12.5a9.5 9.5 0 0 1 13 0M8.6 16a5 5 0 0 1 6.8 0"/><circle cx="12" cy="19.2" r="1.1" fill="currentColor"/></svg>',
+  chat:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 19.5l1.3-3.8A8 8 0 1 1 8.4 19z"/></svg>'
+};
+const HERO_SVG = '<svg viewBox="0 0 400 250" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true"><defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7F9CC0"/><stop offset=".62" stop-color="#E9C9B3"/><stop offset="1" stop-color="#F3DCC4"/></linearGradient><linearGradient id="sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3E6A93"/><stop offset="1" stop-color="#2B4F74"/></linearGradient></defs><rect width="400" height="250" fill="url(#sky)"/><circle cx="300" cy="112" r="15" fill="#F7E7CF"/><path d="M0 130 L40 112 L78 120 L120 94 L150 106 L190 78 L226 100 L262 90 L300 110 L340 102 L400 118 L400 140 L0 140 Z" fill="#7C7FA6" opacity=".75"/><rect y="132" width="400" height="28" fill="url(#sea)"/><path d="M0 160 C 80 146 150 156 220 150 C 290 144 340 152 400 146 L400 250 L0 250 Z" fill="#8C9466"/><path d="M0 188 C 90 174 190 184 400 170 L400 250 L0 250 Z" fill="#6E7A4C"/><rect x="150" y="138" width="96" height="40" fill="#FBFAF7"/><rect x="214" y="122" width="58" height="56" fill="#F3F1EC"/><rect x="162" y="150" width="12" height="18" fill="#3D4A63"/><rect x="184" y="150" width="22" height="18" fill="#3D4A63"/><rect x="228" y="156" width="30" height="22" fill="#3D4A63"/><rect x="140" y="178" width="140" height="6" fill="#EDE7DB"/><rect x="150" y="184" width="110" height="12" rx="2" fill="#7FC6D6"/><g fill="#4E5A34"><rect x="86" y="160" width="4" height="34" fill="#5B4A36"/><ellipse cx="88" cy="156" rx="26" ry="15"/><ellipse cx="72" cy="164" rx="14" ry="9"/><ellipse cx="104" cy="163" rx="14" ry="9"/></g></svg>';
+
+function T(){ return U[lang]; }
+function fmtDate(iso, opt){ return new Intl.DateTimeFormat(T().loc, opt || {weekday:"short",day:"numeric",month:"short"}).format(new Date(iso + "T12:00:00")); }
+function money(v){ return new Intl.NumberFormat(T().loc,{style:"currency",currency:"EUR",maximumFractionDigits:0}).format(v); }
+function toast(msg){ const t=$("#toast"); t.textContent=msg; t.hidden=false; clearTimeout(toast._t); toast._t=setTimeout(()=>t.hidden=true,2200); }
+function wa(text){
+  const num = (D && D.contact && D.contact.whatsapp) || DEFAULT_WA;
+  const who = D ? D.villa.name + (D.guest && D.guest.first ? " · " + D.guest.first : "") : "Muses Guide";
+  return "https://wa.me/" + num + "?text=" + encodeURIComponent("[" + who + "] " + text);
+}
+function copy(text, btn){
+  const ok=()=>{ const o=btn.textContent; btn.textContent=T().copied; btn.classList.add("done"); setTimeout(()=>{btn.textContent=o;btn.classList.remove("done")},1600); };
+  const fb=()=>{ const el=btn.parentElement.querySelector(".v, .url"); if(el){ const r=document.createRange(); r.selectNodeContents(el); const s=getSelection(); s.removeAllRanges(); s.addRange(r);} };
+  try{ navigator.clipboard.writeText(text).then(ok, fb); }catch(e){ fb(); }
+}
+function wxKey(sym){ sym=String(sym||""); if(/thunder/.test(sym)) return "storm"; if(/rain|sleet|snow|shower/.test(sym)) return "rain"; if(/partly/.test(sym)) return "partly"; if(/cloudy|fog/.test(sym)) return "cloudy"; return "sunny"; }
+
+/* ---------- Φόρτωση ---------- */
+async function load(){
+  document.documentElement.lang = lang;
+  if (!SLUG){ return renderState("na"); }
+  const qs = new URLSearchParams({ v: SLUG, lang: lang }); ["k","h","p"].forEach(x => { if (KEY[x]) qs.set(x, KEY[x]); });
+  try {
+    const r = await fetch("/api/guide?" + qs.toString());
+    const j = await r.json();
+    if (!j || !j.ok) return renderState(j && j.code === "UPSTREAM" ? "err" : "na");
+    D = j; render();
+    if (D.villa.coords && !WX) loadWeather(D.villa.coords);
+  } catch (e) { renderState("err"); }
+}
+async function loadWeather(c){
+  try { const r = await fetch("/api/weather?lat=" + c[0] + "&lng=" + c[1]); const j = await r.json(); if (j && j.ok && j.days && j.days.length){ WX = j.days; renderChips(); renderFooter(); } } catch (e) {}
+}
+function renderState(kind){
+  const t = T();
+  $("#app").innerHTML = `<div class="state"><div><h1>${esc(t.naT)}</h1><p style="color:var(--muted)">${esc(t.naB)}</p>
+    <p style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:16px">${kind === "err" ? `<button class="small-btn" type="button" onclick="location.reload()">${esc(t.retry)}</button>` : ""}
+    <a class="small-btn" style="background:var(--accent);color:var(--on-accent);border-color:var(--accent)" href="${wa(t.hello)}" target="_blank" rel="noopener">${esc(t.writeUs)}</a></p></div></div>`;
+}
+
+/* ---------- Απόδοση ---------- */
+function renderChips(){
+  const el = $("#chips"); if (!el) return;
+  const t = T(); let h = "";
+  if (WX){ const d0 = WX[0]; h += `<span class="chip">${d0.tmax}° <i>${esc(t.wx[wxKey(d0.sym)])}</i></span>` + WX.slice(1,4).map(d => `<span class="chip"><i>${esc(fmtDate(d.date,{weekday:"short"}))}</i> ${d.tmax}°</span>`).join(""); }
+  if (D.checkout) h += `<span class="chip"><i>Check-out</i> ${esc(D.checkout)}</span>`;
+  el.innerHTML = h;
+}
+function renderFooter(){
+  const f = $("#wsrc"); if (f) f.innerHTML = WX ? 'Weather data: <a href="https://www.met.no/en" target="_blank" rel="noopener">MET Norway</a> (CC BY 4.0)' : "";
+}
+function fileList(files){
+  if (!files || !files.length) return "";
+  const imgs = files.filter(f => f.type === "img"), pdfs = files.filter(f => f.type === "pdf");
+  return (imgs.length ? `<div class="photos">${imgs.map(f => `<a href="${esc(safeUrl(f.url))}" target="_blank" rel="noopener"><img src="${esc(safeUrl(f.url))}" alt="${esc(f.name)}" loading="lazy"></a>`).join("")}</div>` : "") +
+         (pdfs.length ? `<div style="margin-top:8px">${pdfs.map(f => `<a class="pdf" href="${esc(safeUrl(f.url))}" target="_blank" rel="noopener">${esc(f.name)}</a>`).join("")}</div>` : "");
+}
+function render(){
+  const t = T(), V = D.villa, A = D.arrival, G = D.guest, priv = !!A;
+  document.title = V.name + " · Muses";
+  const secs = [];
+  if (priv && (A.address || A.directions || (A.files && A.files.length) || A.maps)) secs.push("arrival");
+  if (priv && A.wifi) secs.push("wifi");
+  const facts = [[V.facts.bed, t.bedrooms],[V.facts.bath, t.baths],[V.facts.cap, t.guests]].filter(x => String(x[0] || "").trim());
+  if (facts.length || V.amenities.length || D.howto.length || D.parking || D.trash) secs.push("house");
+  if (D.rules.length) secs.push("rules");
+  if (D.poi.length) secs.push("nearby");
+  if (D.exp.length) secs.push("exp");
+  if (D.checkout || D.steps.length) secs.push("departure");
+  secs.push("emergency");
+  const cats = [...new Set(D.poi.map(p => p.cat))];
+  const poiRows = D.poi.filter(p => filter === "all" || p.cat === filter);
+  const nearest = c => D.poi.filter(p => p.cat === c).sort((a,b) => (a.km==null?999:a.km)-(b.km==null?999:b.km))[0];
+  const health = nearest("health"), pharm = nearest("pharmacy");
+  const publicUrl = location.origin + "/" + SLUG;
+  const banner = D.mode === "preview" ? "Preview · Προεπισκόπηση (DRAFT)" : (D.notice === "INVALID_KEY" ? t.invalid : (D.mode === "before" ? t.beforeNote : ""));
+  const C = D.coupon;
+  const couponHtml = C ? `<div class="coupon"><span class="eb">${esc(t.cEb)}</span><h2>${esc(t.cT.replace("{p}", C.pct))}</h2><p>${esc(t.cB)}</p>${C.terms ? `<p>${esc(C.terms)}</p>` : ""}
+      <div class="cc"><span class="v">${esc(C.code)}</span><button class="copy" type="button" data-copy="${esc(C.code)}">${esc(t.copy)}</button>
+      <a class="go" href="${esc(safeUrl(C.url) || "https://booking.musestravel.com")}" target="_blank" rel="noopener">${esc(t.cBtn)} →</a></div>
+      ${C.until ? `<small>${esc(t.cV.replace("{d}", fmtDate(C.until,{day:"numeric",month:"long",year:"numeric"})))}</small>` : ""}</div>` : "";
+
+  $("#app").innerHTML = `
+  ${banner ? `<div class="banner"><div>${esc(banner)}</div></div>` : ""}
+  <div class="wrap">
+    <div class="hero">${safeUrl(V.hero) ? `<img src="${esc(V.hero)}" alt="${esc(V.name)}">` : HERO_SVG}
+      <div class="lang"><select id="lang" aria-label="Language">${Object.keys(U).map(k => `<option value="${k}"${k===lang?" selected":""}>${U[k].langName}</option>`).join("")}</select></div></div>
+    <div class="title"><p class="kicker">${esc(t.kicker)}</p><h1>${esc(V.name)}</h1>${V.area ? `<p class="area">${esc(V.area)} · Crete</p>` : ""}<div class="chips" id="chips"></div></div>
+    ${G ? `<div class="me">${D.mode === "after" ? `<h2>${esc(t.thanks)}${G.first ? ", " + esc(G.first) : ""}</h2>` : `<h2>${esc(t.welcome.replace("{n}", G.first || ""))}</h2>`}
+      <dl><div><dt>${esc(t.arr)}</dt><dd>${esc(fmtDate(G.arr))}</dd></div><div><dt>${esc(t.dep)}</dt><dd>${esc(fmtDate(G.dep))}${D.checkout ? " · " + esc(D.checkout) : ""}</dd></div></dl></div>` : ""}
+    ${couponHtml}
+    <div class="quick">
+      ${priv && A.maps ? `<a class="qa primary" href="${esc(safeUrl(A.maps))}" target="_blank" rel="noopener">${IC.pin}${esc(t.directions)}</a>` : ""}
+      ${priv && A.wifi ? `<a class="qa" href="#wifi">${IC.wifi}Wi‑Fi</a>` : ""}
+      <a class="qa${priv && A.maps ? "" : " primary"}" href="${wa(t.hello)}" target="_blank" rel="noopener">${IC.chat}${esc(t.writeUs)}</a>
+    </div>
+    <nav class="toc" aria-label="Sections">${secs.map(s => `<a href="#${s}">${esc(t.nav[s])}</a>`).join("")}</nav>
+    <main>
+    ${secs.includes("arrival") ? `<section id="arrival"><h2 class="s">${esc(t.nav.arrival)}</h2>
+      ${A.address ? `<p class="addr">${esc(A.address)}</p>` : ""}
+      ${A.directions ? `<h3>${esc(t.howToGet)}</h3><p>${esc(A.directions)}</p>` : ""}
+      ${fileList(A.files)}
+      ${A.maps ? `<p style="margin-top:12px"><a class="small-btn" href="${esc(safeUrl(A.maps))}" target="_blank" rel="noopener">${esc(t.directions)} →</a></p>` : ""}</section>` : ""}
+    ${secs.includes("wifi") ? `<section id="wifi"><h2 class="s">Wi‑Fi</h2><div class="box">
+      ${A.wifi.net ? `<div class="row"><div><div class="k">${esc(t.wifiNet)}</div><div class="v">${esc(A.wifi.net)}</div></div><button class="copy" type="button" data-copy="${esc(A.wifi.net)}">${esc(t.copy)}</button></div>` : ""}
+      ${A.wifi.pass ? `<div class="row"><div><div class="k">${esc(t.wifiPass)}</div><div class="v">${esc(A.wifi.pass)}</div></div><button class="copy" type="button" data-copy="${esc(A.wifi.pass)}">${esc(t.copy)}</button></div>` : ""}</div></section>` : ""}
+    ${secs.includes("house") ? `<section id="house"><h2 class="s">${esc(t.nav.house)}</h2>
+      ${facts.length ? `<div class="facts">${facts.map(f => { const v = String(f[0]).trim(), m = v.match(/^\d+(?:\s*\+\s*\d+)?/), big = m ? m[0].replace(/\s+/g, "") : v, rest = m ? v.slice(m[0].length).replace(/^[\s(,.-]+|[)\s]+$/g, "") : ""; return `<div class="fact"><b>${esc(big)}</b><span>${esc(f[1])}${rest ? " · " + esc(rest) : ""}</span></div>`; }).join("")}</div>` : ""}
+      ${V.amenities.length ? `<div class="tags">${V.amenities.map(a => t.am[a] ? `<span class="tag">${esc(t.am[a])}</span>` : "").join("")}</div>` : ""}
+      ${D.howto.length ? `<h3>${esc(t.howto)}</h3>` + D.howto.map((h,i) => `<details${i===0?" open":""}><summary>${esc(h.t || t.more)}</summary><div class="body">${h.d ? `<p>${esc(h.d)}</p>` : ""}${fileList(h.files)}</div></details>`).join("") : ""}
+      ${D.parking ? `<h3>${esc(t.parking)}</h3>${D.parking.text ? `<p>${esc(D.parking.text)}</p>` : ""}${fileList(D.parking.files)}` : ""}
+      ${D.trash ? `<h3>${esc(t.trash)}</h3><p>${esc(D.trash)}</p>` : ""}</section>` : ""}
+    ${secs.includes("rules") ? `<section id="rules"><h2 class="s">${esc(t.rulesT)}</h2><ul class="list">${D.rules.map(r => `<li>${esc(r)}</li>`).join("")}</ul></section>` : ""}
+    ${secs.includes("nearby") ? `<section id="nearby"><h2 class="s">${esc(t.nav.nearby)}</h2>
+      ${cats.length > 1 ? `<div class="filters" role="group"><button type="button" data-f="all" aria-pressed="${filter==="all"}">${esc(t.all)}</button>${cats.map(c => `<button type="button" data-f="${c}" aria-pressed="${filter===c}">${esc(t.cats[c] || c)}</button>`).join("")}</div>` : ""}
+      <div>${poiRows.map(p => `<div class="poi"><div class="n">${esc(p.name)}${p.pick ? `<span class="pick">${esc(t.pick)}</span>` : ""}</div>
+        <div class="m">${esc(t.cats[p.cat] || p.cat)}${p.km != null ? ` · ${new Intl.NumberFormat(t.loc,{maximumFractionDigits:1}).format(p.km)} ${esc(t.km)}` : ""}</div>
+        ${p.tip ? `<p class="tip">${esc(p.tip)}</p>` : ""}<a class="map" href="${esc(safeUrl(p.maps))}" target="_blank" rel="noopener">${esc(t.map)}</a></div>`).join("")}</div></section>` : ""}
+    ${secs.includes("exp") ? `<section id="exp"><h2 class="s">${esc(t.expT)}</h2><p style="color:var(--muted)">${esc(D.mode === "guest" ? t.expSub : t.publicSub)}</p>
+      <div class="exps">${D.exp.map((e,i) => `<div class="exp">${safeUrl(e.photo) ? `<img src="${esc(e.photo)}" alt="" loading="lazy">` : ""}<div class="in">
+        <h4>${esc(e.name)}</h4><div class="price">${e.price ? `${esc(t.from)}<b>${esc(money(e.price))}${e.pp ? `<small style="font-weight:400;color:var(--muted)"> ${esc(t.pp)}</small>` : ""}</b>` : esc(t.onReq)}</div>
+        ${e.desc ? `<p>${esc(e.desc)}</p>` : ""}<button type="button" data-exp="${i}">${esc(D.mode === "guest" ? t.book : t.interested)}</button></div></div>`).join("")}</div></section>` : ""}
+    ${secs.includes("departure") ? `<section id="departure"><h2 class="s">${esc(t.nav.departure)}</h2>
+      ${D.checkout ? `<div class="co"><span style="color:var(--muted)">${esc(t.coBy)}</span><b>${esc(D.checkout)}</b></div>
+        <div class="late"><span>${esc(t.late)}</span><a href="${wa(t.lateMsg)}" target="_blank" rel="noopener">${esc(t.lateBtn)} →</a></div>` : ""}
+      ${D.steps.length ? `<h3>${esc(t.before)}</h3><ol class="steps">${D.steps.map(s => `<li>${esc(s)}</li>`).join("")}</ol>` : ""}</section>` : ""}
+    <section id="emergency"><h2 class="s">${esc(t.nav.emergency)}</h2><div class="box">
+      <div class="row"><div><div class="k">${esc(t.e112)}</div><div class="big112">112</div></div></div>
+      ${health ? `<div class="row"><div><div class="k">${esc(t.healthC)}</div><div class="t">${esc(health.name)}${health.km != null ? ` · ${health.km} ${esc(t.km)}` : ""}</div></div><a class="small-btn" href="${esc(safeUrl(health.maps))}" target="_blank" rel="noopener">${esc(t.map)}</a></div>` : ""}
+      ${pharm ? `<div class="row"><div><div class="k">${esc(t.pharm)}</div><div class="t">${esc(pharm.name)}${pharm.km != null ? ` · ${pharm.km} ${esc(t.km)}` : ""}</div></div><a class="small-btn" href="${esc(safeUrl(pharm.maps))}" target="_blank" rel="noopener">${esc(t.map)}</a></div>` : ""}
+      <div class="row"><div><div class="k">Muses · WhatsApp</div><div class="v">+${esc(D.contact.whatsapp || DEFAULT_WA)}</div></div><button class="copy" type="button" data-copy="+${esc(D.contact.whatsapp || DEFAULT_WA)}">${esc(t.copy)}</button></div></div></section>
+    <section id="share"><h2 class="s">${esc(t.share)}</h2><div class="share"><div class="qr" id="qr"></div>
+      <div><div class="url">${esc(publicUrl)}</div><button class="copy" type="button" data-copy="${esc(publicUrl)}">${esc(t.copyLink)}</button></div></div></section>
+    </main>
+    <footer><strong>Muses</strong><span>Curated Villas Management · Rethymno, Crete</span><span id="wsrc"></span></footer>
+  </div>`;
+  const fab = $("#fab"); fab.href = wa(t.hello); fab.innerHTML = IC.chat + esc(t.writeUs); fab.hidden = false;
+  renderChips(); renderFooter();
+  const drawQR = () => { try { if (window.QRCode) new QRCode($("#qr"), { text: publicUrl, width: 112, height: 112, colorDark: "#1C1917", colorLight: "#ffffff", correctLevel: QRCode.CorrectLevel.M }); } catch (e) {} };
+  if (window.QRCode) drawQR(); else window.addEventListener("load", drawQR, { once: true });
+}
+
+/* ---------- Αίτημα εμπειρίας ---------- */
+function openRequest(i){
+  const t = T(), e = D.exp[i], f = $("#frm"), guestMode = D.mode === "guest" && D.guest;
+  const today = new Date().toISOString().slice(0,10);
+  const min = guestMode && D.guest.arr > today ? D.guest.arr : today, max = guestMode ? D.guest.dep : "";
+  f.innerHTML = `<h4>${esc(e.name)}</h4>` +
+    (guestMode ? "" : `<label for="rq-name">${esc(t.name)}<input id="rq-name" type="text" autocomplete="name" required></label>`) +
+    `<label for="rq-email">${esc(t.email)}<input id="rq-email" type="email" autocomplete="email" required value="${esc(guestMode ? D.guest.email : "")}"></label>` +
+    (guestMode ? "" : `<label for="rq-phone">${esc(t.phoneOpt)}<input id="rq-phone" type="tel" autocomplete="tel"></label>`) +
+    `<label for="rq-date">${esc(t.date)}<input id="rq-date" type="date" min="${min}"${max ? ` max="${max}"` : ""}></label>
+     <label for="rq-n">${esc(t.persons)}<input id="rq-n" type="number" min="1" max="30" value="2" required></label>
+     <label for="rq-note">${esc(t.note)}<textarea id="rq-note" rows="2"></textarea></label>
+     <p class="err" id="rq-err" hidden></p>
+     <div class="acts"><button type="button" id="rq-x">${esc(t.close)}</button><button class="go" type="submit" id="rq-go">${esc(t.send)}</button></div>`;
+  $("#rq-x").onclick = () => $("#dlg").close();
+  f.onsubmit = async ev => {
+    ev.preventDefault();
+    const err = $("#rq-err"), go = $("#rq-go"), email = $("#rq-email").value.trim();
+    const showErr = m => { err.textContent = m; err.hidden = false; go.disabled = false; go.textContent = t.send; };
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return showErr(t.errEmail);
+    const name = $("#rq-name") ? $("#rq-name").value.trim() : "";
+    if (!guestMode && !name) return showErr(t.errName);
+    go.disabled = true; go.textContent = t.sending; err.hidden = true;
+    const body = { v: SLUG, k: guestMode ? KEY.k : "", service: e.id, date: $("#rq-date").value, persons: $("#rq-n").value, email: email, name: name,
+                   phone: $("#rq-phone") ? $("#rq-phone").value.trim() : "", note: $("#rq-note").value.trim(), lang: lang };
+    try {
+      const r = await fetch("/api/request", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+      const j = await r.json();
+      if (!j.ok) return showErr(j.code === "EMAIL" ? t.errEmail : (j.code === "NAME" ? t.errName : t.errGen));
+      f.innerHTML = `<h4>${esc(t.sentT)}</h4><p>${esc(t.sentB)}</p><div class="acts"><button class="go" type="button" id="rq-x2">${esc(t.close)}</button></div>`;
+      $("#rq-x2").onclick = () => $("#dlg").close();
+    } catch (x) { showErr(t.errGen); }
+  };
+  const d = $("#dlg"); if (d.showModal) d.showModal(); else d.setAttribute("open", "");
+}
+
+/* ---------- Συμβάντα ---------- */
+document.addEventListener("click", e => {
+  const c = e.target.closest("[data-copy]"); if (c) { copy(c.dataset.copy, c); return; }
+  const f = e.target.closest("[data-f]"); if (f) { filter = f.dataset.f; render(); document.getElementById("nearby").scrollIntoView({ block: "start" }); return; }
+  const x = e.target.closest("[data-exp]"); if (x) { openRequest(+x.dataset.exp); return; }
+});
+document.addEventListener("change", e => {
+  if (e.target && e.target.id === "lang") { lang = e.target.value; store.set("muses-guide-lang", lang); filter = "all"; load(); }
+});
+load();
+</script>
+</body>
+</html>
