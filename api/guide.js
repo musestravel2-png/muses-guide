@@ -14,10 +14,19 @@ export default async function handler(req, res) {
     const r = await fetch(process.env.GAS_URL + (process.env.GAS_URL.includes('?') ? '&' : '?') + params.toString(), { redirect: 'follow' });
     const text = await r.text();
     let data;
-    try { data = JSON.parse(text); } catch (e) { return res.status(502).json({ ok: false, code: 'UPSTREAM' }); }
+    try { data = JSON.parse(text); } catch (e) {
+      // Το Apps Script απάντησε με σελίδα αντί για JSON: γράφουμε στο log τι ήταν, για γρήγορη διάγνωση
+      const title = (text.match(/<title>([^<]*)<\/title>/i) || [])[1] || text.replace(/\s+/g, ' ').slice(0, 160);
+      const kind = /accounts\.google\.com|ServiceLogin|Sign in/i.test(text) ? 'GOOGLE_LOGIN (πρόσβαση web app ή URL /dev)'
+        : /Muses PMS|Command Center/i.test(text) ? 'OLD_VERSION (η έκδοση του web app δεν έχει τον οδηγό)'
+        : /Script function not found|Δεν βρέθηκε η συνάρτηση/i.test(text) ? 'NO_DOGET' : 'NOT_JSON';
+      console.error('[guide] Apps Script δεν έδωσε JSON', JSON.stringify({ status: r.status, finalUrl: (r.url || '').replace(/secret=[^&]+/, 'secret=***').slice(0, 200), kind, title }));
+      return res.status(502).json({ ok: false, code: 'UPSTREAM', detail: kind });
+    }
     res.setHeader('Cache-Control', personal ? 'private, no-store' : 's-maxage=300, stale-while-revalidate=3600');
     return res.status(200).json(data);
   } catch (e) {
-    return res.status(502).json({ ok: false, code: 'UPSTREAM' });
+    console.error('[guide] σφάλμα σύνδεσης με το Apps Script', e && e.message);
+    return res.status(502).json({ ok: false, code: 'UPSTREAM', detail: 'FETCH_FAILED' });
   }
 }

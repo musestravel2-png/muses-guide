@@ -17,7 +17,10 @@ export default async function handler(req, res) {
   try {
     const r = await fetch(process.env.GAS_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), redirect: 'follow' });
     const text = await r.text();
-    try { return res.status(200).json(JSON.parse(text)); } catch (e) { return res.status(502).json({ ok: false, code: 'UPSTREAM' }); }
+    try { return res.status(200).json(JSON.parse(text)); } catch (e) {
+      console.error('[request] Apps Script δεν έδωσε JSON', JSON.stringify({ status: r.status, title: (text.match(/<title>([^<]*)<\/title>/i) || [])[1] || text.slice(0, 160) }));
+      return res.status(502).json({ ok: false, code: 'UPSTREAM' });
+    }
   } catch (e) {
     return res.status(502).json({ ok: false, code: 'UPSTREAM' });
   }
