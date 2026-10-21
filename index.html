@@ -208,6 +208,8 @@ ol.steps li::before{content:counter(s);font-family:var(--display);font-size:1.4r
 .card .top svg{width:30px;height:30px;opacity:.75}
 .card .top.ph{height:150px}
 .card .top img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.fy-sub{color:var(--muted);margin:-4px 0 12px}.fy-why{display:inline-block;font-size:12px;border-radius:999px;padding:3px 10px;background:var(--accent-soft);margin:2px 0 6px}
+.fy-occ{border-radius:14px;padding:12px 14px;background:var(--accent-soft);margin:0 0 12px;font-weight:500}.badge.fy{background:#1C1917;color:#fff}
 .badge{position:absolute;top:10px;left:10px;z-index:1;font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;font-weight:600;background:var(--accent);color:var(--on-accent);border-radius:999px;padding:4px 9px}
 .dist{position:absolute;top:10px;right:10px;z-index:1;font-size:12px;font-weight:500;background:color-mix(in srgb,var(--card) 92%,transparent);border-radius:999px;padding:3px 9px;font-variant-numeric:tabular-nums}
 .card .in{padding:12px 14px 14px;display:flex;flex-direction:column;gap:4px;flex:1}
@@ -415,6 +417,53 @@ ro:{ picks:"Alegerile Muses", practical:"Practic", swipe:"Glisați pentru mai mu
  wx2:{clear:"Cer senin",fair:"Predominant însorit",partly:"Parțial noros",cloudy:"Înnorat",fog:"Ceață",rain:"Ploaie",showers:"Averse",storm:"Furtună",snow:"Ninsoare"} }
 };
 for (const k in U2) Object.assign(U[k], U2[k]);
+/* ---------- 🎯 Για εσάς (προσωποποίηση ανά κράτηση) ---------- */
+const U3 = {
+el:{ fy:"Για εσάς", fyNav:"Για εσάς", inVilla:"Στη βίλα, ειδικά για εσάς", rainy:"Σήμερα ο καιρός δεν είναι για παραλία: πρώτα ιδέες για έξω από το νερό.",
+ seg:{family_baby:"Μέρη άνετα για οικογένειες με μωρό: ρηχά νερά, σκιά, εύκολη πρόσβαση.",family_kids:"Επιλέξαμε μέρη που αγαπούν τα παιδιά (και οι γονείς).",family_teens:"Δραστηριότητες και μέρη για όλη την οικογένεια, με λίγη περιπέτεια.",couple:"Ήσυχα σημεία, ωραία φαγητά και ηλιοβασιλέματα για δύο.",couple_romantic:"Ρομαντικές στιγμές: κρυφές παραλίες, θέα και ξεχωριστά τραπέζια.",friends:"Για την παρέα: beach bars, δραστηριότητες και τοπικές ταβέρνες.",seniors:"Άνετες επιλογές: εύκολη πρόσβαση, ησυχία και πολιτισμός."},
+ occ:{honeymoon:"Να έχετε έναν υπέροχο μήνα του μέλιτος! 💛",anniversary:"Χρόνια πολλά για την επέτειό σας! 💛",birthday:"Χρόνια πολλά! 🎉",proposal:"Σας ευχόμαστε μια αξέχαστη στιγμή! 💍",wedding:"Συγχαρητήρια για τον γάμο σας! 💛"},
+ why:{kids:"για παιδιά",family:"οικογενειακό",romantic:"ρομαντικό",nightlife:"για βράδυ",quiet:"ήσυχο",active:"δραστηριότητα",culture:"πολιτισμός",local:"τοπικό",access:"εύκολη πρόσβαση"} },
+en:{ fy:"For you", fyNav:"For you", inVilla:"At the villa, especially for you", rainy:"Not a beach day today: ideas away from the water first.",
+ seg:{family_baby:"Easy places for families with a baby: shallow water, shade, simple access.",family_kids:"Places kids love (and parents too).",family_teens:"Things to do for the whole family, with a bit of adventure.",couple:"Quiet spots, good food and sunsets for two.",couple_romantic:"Romantic moments: hidden coves, views and special tables.",friends:"For the group: beach bars, activities and local tavernas.",seniors:"Comfortable choices: easy access, calm places and culture."},
+ occ:{honeymoon:"Have a wonderful honeymoon! 💛",anniversary:"Happy anniversary! 💛",birthday:"Happy birthday! 🎉",proposal:"Wishing you an unforgettable moment! 💍",wedding:"Congratulations on your wedding! 💛"},
+ why:{kids:"for kids",family:"family-friendly",romantic:"romantic",nightlife:"evenings out",quiet:"quiet",active:"active",culture:"culture",local:"local favourite",access:"easy access"} },
+de:{ fy:"Für Sie", fyNav:"Für Sie", inVilla:"In der Villa, besonders für Sie", rainy:"Heute kein Strandwetter: zuerst Ideen abseits vom Wasser.",
+ seg:{family_baby:"Bequeme Orte für Familien mit Baby: flaches Wasser, Schatten, einfacher Zugang.",family_kids:"Orte, die Kinder lieben (und Eltern auch).",family_teens:"Aktivitäten für die ganze Familie, mit etwas Abenteuer.",couple:"Ruhige Plätze, gutes Essen und Sonnenuntergänge zu zweit.",couple_romantic:"Romantische Momente: versteckte Buchten, Aussicht und besondere Tische.",friends:"Für die Gruppe: Strandbars, Aktivitäten und lokale Tavernen.",seniors:"Bequeme Auswahl: leichter Zugang, Ruhe und Kultur."},
+ occ:{honeymoon:"Wunderschöne Flitterwochen! 💛",anniversary:"Alles Gute zum Jahrestag! 💛",birthday:"Alles Gute zum Geburtstag! 🎉",proposal:"Wir wünschen einen unvergesslichen Moment! 💍",wedding:"Herzlichen Glückwunsch zur Hochzeit! 💛"},
+ why:{kids:"für Kinder",family:"familienfreundlich",romantic:"romantisch",nightlife:"für den Abend",quiet:"ruhig",active:"aktiv",culture:"Kultur",local:"lokaler Tipp",access:"leicht erreichbar"} },
+fr:{ fy:"Pour vous", fyNav:"Pour vous", inVilla:"À la villa, spécialement pour vous", rainy:"Pas un temps de plage aujourd'hui : d'abord des idées loin de l'eau.",
+ seg:{family_baby:"Des lieux faciles avec un bébé : eau peu profonde, ombre, accès simple.",family_kids:"Des endroits que les enfants adorent (les parents aussi).",family_teens:"Des activités pour toute la famille, avec un peu d'aventure.",couple:"Coins calmes, bonne cuisine et couchers de soleil à deux.",couple_romantic:"Moments romantiques : criques cachées, vues et tables d'exception.",friends:"Pour la bande : beach bars, activités et tavernes locales.",seniors:"Des choix confortables : accès facile, calme et culture."},
+ occ:{honeymoon:"Excellente lune de miel ! 💛",anniversary:"Joyeux anniversaire de mariage ! 💛",birthday:"Joyeux anniversaire ! 🎉",proposal:"Nous vous souhaitons un moment inoubliable ! 💍",wedding:"Félicitations pour votre mariage ! 💛"},
+ why:{kids:"pour les enfants",family:"en famille",romantic:"romantique",nightlife:"pour le soir",quiet:"calme",active:"actif",culture:"culture",local:"adresse locale",access:"accès facile"} },
+nl:{ fy:"Voor u", fyNav:"Voor u", inVilla:"In de villa, speciaal voor u", rainy:"Vandaag geen strandweer: eerst ideeën weg van het water.",
+ seg:{family_baby:"Makkelijke plekken met een baby: ondiep water, schaduw, eenvoudige toegang.",family_kids:"Plekken waar kinderen dol op zijn (ouders ook).",family_teens:"Activiteiten voor het hele gezin, met wat avontuur.",couple:"Rustige plekjes, lekker eten en zonsondergangen voor twee.",couple_romantic:"Romantische momenten: verborgen baaien, uitzicht en bijzondere tafels.",friends:"Voor de groep: strandbars, activiteiten en lokale taverna's.",seniors:"Comfortabele keuzes: makkelijke toegang, rust en cultuur."},
+ occ:{honeymoon:"Een geweldige huwelijksreis! 💛",anniversary:"Gefeliciteerd met jullie jubileum! 💛",birthday:"Gefeliciteerd met je verjaardag! 🎉",proposal:"Een onvergetelijk moment gewenst! 💍",wedding:"Gefeliciteerd met jullie huwelijk! 💛"},
+ why:{kids:"voor kinderen",family:"gezinsvriendelijk",romantic:"romantisch",nightlife:"voor de avond",quiet:"rustig",active:"actief",culture:"cultuur",local:"lokale tip",access:"makkelijk bereikbaar"} },
+pl:{ fy:"Dla Państwa", fyNav:"Dla Państwa", inVilla:"W willi, specjalnie dla Państwa", rainy:"Dziś nie jest dzień na plażę: najpierw pomysły z dala od wody.",
+ seg:{family_baby:"Wygodne miejsca dla rodzin z niemowlęciem: płytka woda, cień, łatwy dostęp.",family_kids:"Miejsca, które dzieci kochają (rodzice też).",family_teens:"Atrakcje dla całej rodziny, z odrobiną przygody.",couple:"Spokojne miejsca, dobre jedzenie i zachody słońca we dwoje.",couple_romantic:"Romantyczne chwile: ukryte zatoczki, widoki i wyjątkowe stoliki.",friends:"Dla paczki: beach bary, aktywności i lokalne tawerny.",seniors:"Wygodne propozycje: łatwy dostęp, spokój i kultura."},
+ occ:{honeymoon:"Wspaniałego miesiąca miodowego! 💛",anniversary:"Wszystkiego najlepszego z okazji rocznicy! 💛",birthday:"Wszystkiego najlepszego! 🎉",proposal:"Życzymy niezapomnianej chwili! 💍",wedding:"Gratulacje z okazji ślubu! 💛"},
+ why:{kids:"dla dzieci",family:"rodzinne",romantic:"romantyczne",nightlife:"na wieczór",quiet:"spokojne",active:"aktywnie",culture:"kultura",local:"lokalny wybór",access:"łatwy dostęp"} },
+ro:{ fy:"Pentru dvs.", fyNav:"Pentru dvs.", inVilla:"La vilă, special pentru dvs.", rainy:"Azi nu e vreme de plajă: mai întâi idei departe de apă.",
+ seg:{family_baby:"Locuri comode pentru familii cu bebeluș: apă mică, umbră, acces ușor.",family_kids:"Locuri pe care copiii le adoră (și părinții).",family_teens:"Activități pentru toată familia, cu puțină aventură.",couple:"Locuri liniștite, mâncare bună și apusuri în doi.",couple_romantic:"Momente romantice: golfuri ascunse, priveliști și mese speciale.",friends:"Pentru grup: beach baruri, activități și taverne locale.",seniors:"Alegeri comode: acces ușor, liniște și cultură."},
+ occ:{honeymoon:"Să aveți o lună de miere minunată! 💛",anniversary:"La mulți ani de aniversare! 💛",birthday:"La mulți ani! 🎉",proposal:"Vă dorim un moment de neuitat! 💍",wedding:"Felicitări pentru nuntă! 💛"},
+ why:{kids:"pentru copii",family:"pentru familie",romantic:"romantic",nightlife:"pentru seară",quiet:"liniștit",active:"activ",culture:"cultură",local:"local",access:"acces ușor"} }
+};
+for (const k in U3) { Object.assign(U[k], U3[k]); U[k].nav = Object.assign({}, U[k].nav, { foryou: U3[k].fyNav }); }
+const DRY_FIRST = ["food", "cafe", "sight", "activity", "shopping"];
+function wetToday(){ try { const s = WX && (WX.now && WX.now.sym || (WX.days && WX.days[0] && WX.days[0].sym)); return /rain|showers|thunder/.test(String(s || "")); } catch (e) { return false; } }
+function forYouList(){
+  const L = (D && D.forYou) || []; if (!wetToday()) return L;
+  return L.slice().sort((a, b) => (DRY_FIRST.indexOf(a.cat) < 0) - (DRY_FIRST.indexOf(b.cat) < 0));
+}
+function renderForYou(){
+  const el = $("#fy-body"); if (!el || !D || !D.guest) return;
+  const t = T(), G = D.guest, L = forYouList(), am = (D.forYouVilla || []).filter(a => t.am[a]);
+  el.innerHTML = (G.occ && t.occ[G.occ] ? `<div class="fy-occ">${esc(t.occ[G.occ])}</div>` : "") +
+    (t.seg[G.seg] ? `<p class="fy-sub">${esc(t.seg[G.seg])}</p>` : "") +
+    (wetToday() && L.length ? `<p class="fy-sub">☔ ${esc(t.rainy)}</p>` : "") +
+    (L.length ? `<div class="rail">${L.map(p => poiCard(p, true, p.why && t.why[p.why] ? t.why[p.why] : "")).join("")}</div>` : "") +
+    (am.length ? `<h3>${esc(t.inVilla)}</h3><div class="tags" style="margin-top:0">${am.map(a => `<span class="tag">${esc(t.am[a])}</span>`).join("")}</div>` : "");
+}
 const DEFAULT_WA = "306987293581";
 // Αν δεν υπάρχει γραμμή «Νοσοκομείο» στο POI, ο οδηγός δείχνει πάντα αυτό
 const HOSP0 = { name: "General Hospital of Rethymno", tel: "+302831342100", coords: [35.36431, 24.47137],
@@ -541,7 +590,7 @@ async function load(){
   if (seq === load._seq) renderState("err");
 }
 async function loadWeather(c){
-  try { const r = await fetch("/api/weather?lat=" + c[0] + "&lng=" + c[1]); const j = await r.json(); if (j && j.ok && j.days && j.days.length){ WX = j; renderWeather(); } } catch (e) {}
+  try { const r = await fetch("/api/weather?lat=" + c[0] + "&lng=" + c[1]); const j = await r.json(); if (j && j.ok && j.days && j.days.length){ WX = j; renderWeather(); renderForYou(); } } catch (e) {}
 }
 function renderState(kind){
   const t = T();
@@ -575,10 +624,10 @@ function fileList(files){
   return (imgs.length ? `<div class="photos">${imgs.map(f => `<a href="${esc(safeUrl(f.url))}" target="_blank" rel="noopener"><img src="${esc(safeUrl(f.url))}" alt="${esc(f.name)}" loading="lazy"></a>`).join("")}</div>` : "") +
          (pdfs.length ? `<div style="margin-top:8px">${pdfs.map(f => `<a class="pdf" href="${esc(safeUrl(f.url))}" target="_blank" rel="noopener">${esc(f.name)}</a>`).join("")}</div>` : "");
 }
-function poiCard(p, showCat){
+function poiCard(p, showCat, why){
   const t = T(), ph = safeUrl(p.photo), tel = telUrl(p.tel);
   return `<article class="card"><div class="top${ph ? " ph" : ""}">${ph ? `<img src="${esc(ph)}" alt="" loading="lazy">` : (CAT_IC[p.cat] || IC.pin)}
-      ${p.pick ? `<span class="badge">${esc(t.pick)}</span>` : ""}${p.km != null ? `<span class="dist">${esc(kmTxt(p.km))}</span>` : ""}</div>
+      ${why ? `<span class="badge fy">♥ ${esc(why)}</span>` : (p.pick ? `<span class="badge">${esc(t.pick)}</span>` : "")}${p.km != null ? `<span class="dist">${esc(kmTxt(p.km))}</span>` : ""}</div>
     <div class="in"><h4>${esc(p.name)}</h4>${showCat ? `<div class="meta">${esc(t.cats[p.cat] || "")}</div>` : ""}${p.tip ? `<p>${esc(p.tip)}</p>` : ""}
       <div class="acts2"><a class="btn sm dark" href="${esc(safeUrl(p.maps))}" target="_blank" rel="noopener">${IC.nav}${esc(t.directions)}</a>${tel ? `<a class="btn sm" href="${esc(tel)}">${IC.phone}${esc(t.call)}</a>` : ""}</div></div></article>`;
 }
@@ -623,6 +672,7 @@ function render(){
   const nearN = (D.poi || []).filter(p => CARE.indexOf(p.cat) < 0).length;
 
   const secs = [];
+  if (G && ((D.forYou && D.forYou.length) || (D.forYouVilla && D.forYouVilla.length) || (G.occ && t.occ && t.occ[G.occ]))) secs.push("foryou");
   if (priv && (A.address || A.directions || (A.files && A.files.length) || A.maps)) secs.push("arrival");
   if (priv && A.wifi) secs.push("wifi");
   if (V.amenities.length || D.howto.length || D.parking || D.trash) secs.push("house");
@@ -682,6 +732,7 @@ function render(){
     </div>
 
     <main>
+    ${secs.includes("foryou") ? `<section id="foryou"><h2 class="s">${esc(t.fy)}${G.first ? ", " + esc(G.first) : ""}</h2><div id="fy-body"></div></section>` : ""}
     ${secs.includes("arrival") ? `<section id="arrival"><h2 class="s">${esc(t.nav.arrival)}</h2>
       ${A.address ? `<p class="addr">${esc(A.address)}</p>` : ""}
       ${A.directions ? `<h3>${esc(t.howToGet)}</h3><p>${esc(A.directions)}</p>` : ""}
@@ -698,7 +749,7 @@ function render(){
     ${secs.includes("rules") ? `<section id="rules"><h2 class="s">${esc(t.rulesT)}</h2><ul class="list">${D.rules.map(r => `<li>${esc(r)}</li>`).join("")}</ul></section>` : ""}
     ${secs.includes("nearby") ? `<section id="nearby"><h2 class="s">${esc(t.nav.nearby)}</h2><div id="nearby-body"></div></section>` : ""}
     ${secs.includes("exp") ? `<section id="exp"><h2 class="s">${esc(t.expT)}</h2><p style="color:var(--muted)">${esc(D.mode === "guest" ? t.expSub : t.publicSub)}</p>
-      <div class="rail">${D.exp.map((e,i) => `<article class="card"><div class="top${safeUrl(e.photo) ? " ph" : ""}">${safeUrl(e.photo) ? `<img src="${esc(e.photo)}" alt="" loading="lazy">` : IC.star}</div>
+      <div class="rail">${D.exp.map((e,i) => `<article class="card"><div class="top${safeUrl(e.photo) ? " ph" : ""}">${safeUrl(e.photo) ? `<img src="${esc(e.photo)}" alt="" loading="lazy">` : IC.star}${e.fy && e.why && t.why[e.why] ? `<span class="badge fy">♥ ${esc(t.why[e.why])}</span>` : ""}</div>
         <div class="in"><h4>${esc(e.name)}</h4><div class="price">${e.price ? `${esc(t.from)} <b>${esc(money(e.price))}</b>${e.pp ? ` ${esc(t.pp)}` : ""}` : esc(t.onReq)}</div>
         ${e.desc ? `<p>${esc(e.desc)}</p>` : ""}<div class="acts2"><button class="btn sm dark" type="button" data-exp="${i}">${esc(D.mode === "guest" ? t.book : t.interested)}</button></div></div></article>`).join("")}</div>
       ${D.exp.length > 1 ? `<p class="hint"><span>${esc(t.swipe)} →</span><span>${D.exp.length}</span></p>` : ""}</section>` : ""}
@@ -712,7 +763,7 @@ function render(){
     <footer><strong>Muses</strong><span>Curated Villas Management · Rethymno, Crete</span></footer>
   </div>`;
   const fab = $("#fab"); fab.href = wa(t.hello); fab.innerHTML = IC.chat + `<span>${esc(t.writeUs)}</span>`; fab.hidden = false;
-  renderNearby(); renderWeather(); watchSections();
+  renderNearby(); renderWeather(); renderForYou(); watchSections();
   const drawQR = () => { try { if (window.QRCode) new QRCode($("#qr"), { text: publicUrl, width: 112, height: 112, colorDark: "#1C1917", colorLight: "#ffffff", correctLevel: QRCode.CorrectLevel.M }); const qi = $("#qr").querySelector("img"); if (qi) qi.alt = "QR"; } catch (e) {} };
   if (window.QRCode) drawQR(); else window.addEventListener("load", drawQR, { once: true });
 }
