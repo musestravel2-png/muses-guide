@@ -72,6 +72,11 @@ h1{font-family:var(--display);font-weight:400;font-size:clamp(2rem,8.5vw,2.9rem)
 .me dd{margin:0;font-weight:500}
 
 /* Κουπόνι */
+.ext{margin-top:14px;border:1.5px solid var(--accent);border-radius:var(--r);background:var(--accent-soft);padding:16px 18px;display:grid;gap:6px}
+.ext h2{font-family:var(--display);font-weight:400;font-size:1.5rem;line-height:1.1;margin:0}
+.ext p{margin:0;font-size:14.5px}
+.ext small{color:var(--muted);font-size:12.5px}
+.wxn{margin:4px 0 8px;font-size:13.5px;color:var(--muted)}
 .coupon{margin-top:14px;border:1.5px dashed var(--accent);border-radius:var(--r);background:var(--accent-soft);padding:16px 18px;display:grid;gap:6px}
 .coupon .eb{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
 .coupon h2{font-family:var(--display);font-weight:400;font-size:1.6rem;line-height:1.1;margin:0}
@@ -152,6 +157,9 @@ h1{font-family:var(--display);font-weight:400;font-size:clamp(2rem,8.5vw,2.9rem)
 .iconbtn svg{width:18px;height:18px}
 .duty{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0 8px;border-top:1px solid var(--line);font-size:14px;text-decoration:none}
 .duty small{display:block;color:var(--muted);font-size:12.5px}
+.pst{margin:6px 0 8px;padding:9px 11px;border-radius:10px;font-size:13.5px;line-height:1.4;background:var(--sos-bg);color:var(--sos)}
+.pst.maybe{background:var(--accent-soft);color:inherit}
+.pst + .btn{margin-bottom:6px}
 
 /* Ενότητες */
 section{padding:28px 0 4px;scroll-margin-top:60px}
@@ -417,6 +425,56 @@ ro:{ picks:"Alegerile Muses", practical:"Practic", swipe:"Glisați pentru mai mu
 for (const k in U2) Object.assign(U[k], U2[k]);
 const DEFAULT_WA = "306987293581";
 // Αν δεν υπάρχει γραμμή «Νοσοκομείο» στο POI, ο οδηγός δείχνει πάντα αυτό
+/* v103: παράταση διαμονής + σειρά εμπειριών ανάλογα με τον καιρό */
+const U103 = {
+  el: { extT: "Θέλετε να μείνετε λίγο ακόμα;", extB: "Η βίλα είναι ελεύθερη για {n} μετά την αναχώρησή σας ({d}). Ρωτήστε μας: θα ελέγξουμε τη διαθεσιμότητα και θα σας στείλουμε προσφορά.", extN1: "1 νύχτα", extNn: "{x} νύχτες", extBtn: "Ρωτήστε μας στο WhatsApp", extNote: "Χωρίς καμία δέσμευση. Η παράταση ισχύει μόνο αφού σας την επιβεβαιώσουμε.", extMsg: "Γεια σας! Μένουμε στη βίλα έως {d}. Θα θέλαμε να παρατείνουμε τη διαμονή μας λίγες νύχτες. Μπορείτε να μας στείλετε προσφορά;", wxIn: "Με αέρα ή βροχή τις επόμενες μέρες, βάλαμε πρώτα όσα απολαμβάνετε στη βίλα.", wxOut: "Καλός καιρός τις επόμενες μέρες: πρώτα όσα γίνονται στη θάλασσα και στη φύση." },
+  en: { extT: "Would you like to stay a little longer?", extB: "The villa is free for {n} after your departure ({d}). Ask us: we will check availability and send you an offer.", extN1: "1 night", extNn: "{x} nights", extBtn: "Ask us on WhatsApp", extNote: "No commitment. An extension is confirmed only once we reply.", extMsg: "Hello! We are staying at the villa until {d}. We would like to extend our stay by a few nights. Could you send us an offer?", wxIn: "Wind or rain in the next days, so we have put the experiences you can enjoy at the villa first.", wxOut: "Fine weather in the next days: sea and outdoor experiences first." },
+  de: { extT: "Möchten Sie etwas länger bleiben?", extB: "Die Villa ist nach Ihrer Abreise ({d}) noch {n} frei. Fragen Sie uns: Wir prüfen die Verfügbarkeit und senden Ihnen ein Angebot.", extN1: "1 Nacht", extNn: "{x} Nächte", extBtn: "Fragen Sie uns per WhatsApp", extNote: "Unverbindlich. Eine Verlängerung gilt erst nach unserer Bestätigung.", extMsg: "Hallo! Wir sind bis {d} in der Villa. Wir würden unseren Aufenthalt gern um einige Nächte verlängern. Können Sie uns ein Angebot senden?", wxIn: "In den nächsten Tagen Wind oder Regen: Erlebnisse in der Villa stehen deshalb vorne.", wxOut: "Schönes Wetter in den nächsten Tagen: Erlebnisse auf dem Meer und in der Natur zuerst." },
+  fr: { extT: "Envie de rester un peu plus ?", extB: "La villa est libre pendant {n} après votre départ ({d}). Demandez-nous : nous vérifions la disponibilité et vous envoyons une offre.", extN1: "1 nuit", extNn: "{x} nuits", extBtn: "Demandez-nous sur WhatsApp", extNote: "Sans engagement. La prolongation n’est confirmée qu’après notre réponse.", extMsg: "Bonjour ! Nous sommes à la villa jusqu’au {d}. Nous aimerions prolonger notre séjour de quelques nuits. Pouvez-vous nous envoyer une offre ?", wxIn: "Vent ou pluie dans les prochains jours : nous avons placé en premier les expériences à la villa.", wxOut: "Beau temps dans les prochains jours : d’abord la mer et le plein air." },
+  nl: { extT: "Wilt u wat langer blijven?", extB: "De villa is na uw vertrek ({d}) nog {n} vrij. Vraag het ons: we controleren de beschikbaarheid en sturen u een aanbod.", extN1: "1 nacht", extNn: "{x} nachten", extBtn: "Vraag het ons via WhatsApp", extNote: "Vrijblijvend. Een verlenging geldt pas na onze bevestiging.", extMsg: "Hallo! We verblijven in de villa tot {d}. We willen ons verblijf graag met een paar nachten verlengen. Kunt u ons een aanbod sturen?", wxIn: "Wind of regen de komende dagen: we hebben de ervaringen in de villa bovenaan gezet.", wxOut: "Mooi weer de komende dagen: eerst de zee en de natuur." },
+  pl: { extT: "Chcecie zostać trochę dłużej?", extB: "Willa jest wolna przez {n} po Waszym wyjeździe ({d}). Zapytajcie nas: sprawdzimy dostępność i wyślemy ofertę.", extN1: "1 noc", extNn: "{x} noce", extBtn: "Zapytaj na WhatsApp", extNote: "Bez zobowiązań. Przedłużenie obowiązuje dopiero po naszym potwierdzeniu.", extMsg: "Dzień dobry! Jesteśmy w willi do {d}. Chcielibyśmy przedłużyć pobyt o kilka nocy. Czy możecie przesłać nam ofertę?", wxIn: "W najbliższych dniach wiatr lub deszcz, więc na początku są atrakcje w willi.", wxOut: "Ładna pogoda w najbliższych dniach: najpierw morze i natura." },
+  ro: { extT: "Doriți să mai rămâneți puțin?", extB: "Vila este liberă {n} după plecarea dumneavoastră ({d}). Întrebați-ne: verificăm disponibilitatea și vă trimitem o ofertă.", extN1: "1 noapte", extNn: "{x} nopți", extBtn: "Întrebați-ne pe WhatsApp", extNote: "Fără obligații. Prelungirea este valabilă doar după confirmarea noastră.", extMsg: "Bună ziua! Suntem la vilă până pe {d}. Am dori să prelungim șederea cu câteva nopți. Ne puteți trimite o ofertă?", wxIn: "Vânt sau ploaie în zilele următoare, așa că am pus primele experiențele de la vilă.", wxOut: "Vreme frumoasă în zilele următoare: întâi marea și natura." }
+};
+/* v104: φαρμακεία — ωράριο, εφημερεύοντα, «κοντά μου τώρα» */
+const U104 = {
+  el: { pClosed: "Τώρα ({h}) τα φαρμακεία στην Κρήτη είναι συνήθως κλειστά. Δείτε ποια εφημερεύουν.", pMaybe: "Πολλά φαρμακεία κλείνουν το μεσημέρι και το απόγευμα Δευτέρας και Τετάρτης. Τηλεφωνήστε πρώτα ή δείτε τα εφημερεύοντα.", nearMe: "Φαρμακεία κοντά μου τώρα", nearMeSub: "Google Maps · δείχνει ποια είναι ανοιχτά", pharmN: "Κοντινότερα φαρμακεία" },
+  en: { pClosed: "Right now ({h}) pharmacies in Crete are normally closed. See which ones are on duty.", pMaybe: "Many pharmacies close at midday and on Monday and Wednesday afternoons. Call first, or check the on-duty list.", nearMe: "Pharmacies near me now", nearMeSub: "Google Maps · shows which are open", pharmN: "Nearest pharmacies" },
+  de: { pClosed: "Jetzt ({h}) sind Apotheken auf Kreta normalerweise geschlossen. Sehen Sie, welche Notdienst haben.", pMaybe: "Viele Apotheken schließen mittags sowie montags und mittwochs am Nachmittag. Rufen Sie vorher an oder sehen Sie die Notdienst-Liste.", nearMe: "Apotheken in meiner Nähe jetzt", nearMeSub: "Google Maps · zeigt, welche geöffnet sind", pharmN: "Nächste Apotheken" },
+  fr: { pClosed: "En ce moment ({h}), les pharmacies en Crète sont normalement fermées. Voyez celles qui sont de garde.", pMaybe: "Beaucoup de pharmacies ferment à midi ainsi que le lundi et le mercredi après-midi. Appelez d’abord ou consultez la liste de garde.", nearMe: "Pharmacies près de moi maintenant", nearMeSub: "Google Maps · indique celles qui sont ouvertes", pharmN: "Pharmacies les plus proches" },
+  nl: { pClosed: "Op dit moment ({h}) zijn apotheken op Kreta meestal gesloten. Bekijk welke dienst hebben.", pMaybe: "Veel apotheken sluiten rond de middag en op maandag- en woensdagmiddag. Bel eerst of bekijk de dienstdoende apotheken.", nearMe: "Apotheken bij mij in de buurt nu", nearMeSub: "Google Maps · toont welke open zijn", pharmN: "Dichtstbijzijnde apotheken" },
+  pl: { pClosed: "Teraz ({h}) apteki na Krecie są zwykle zamknięte. Sprawdź, które pełnią dyżur.", pMaybe: "Wiele aptek zamyka się w południe oraz w poniedziałkowe i środowe popołudnia. Najpierw zadzwoń lub sprawdź apteki dyżurne.", nearMe: "Apteki w pobliżu teraz", nearMeSub: "Google Maps · pokazuje, które są otwarte", pharmN: "Najbliższe apteki" },
+  ro: { pClosed: "Acum ({h}) farmaciile din Creta sunt de obicei închise. Vedeți care sunt de gardă.", pMaybe: "Multe farmacii închid la prânz și în după-amiezile de luni și miercuri. Sunați înainte sau vedeți farmaciile de gardă.", nearMe: "Farmacii lângă mine acum", nearMeSub: "Google Maps · arată care sunt deschise", pharmN: "Cele mai apropiate farmacii" }
+};
+Object.keys(U104).forEach(k => { if (U[k]) Object.keys(U104[k]).forEach(x => { if (U[k][x] === undefined) U[k][x] = U104[k][x]; }); });
+/* Συνηθισμένο ωράριο φαρμακείων (ώρα Ελλάδας): "closed" = σχεδόν σίγουρα κλειστά · "maybe" = πολλά κλειστά · "open" */
+const PH_HOLIDAYS = ["01-01", "01-06", "03-25", "05-01", "08-15", "10-28", "12-25", "12-26"];
+function pharmState(now){
+  let P = {};
+  try { new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/Athens", weekday: "short", hour: "2-digit", minute: "2-digit", month: "2-digit", day: "2-digit", hour12: false }).formatToParts(now || new Date()).forEach(x => { P[x.type] = x.value; }); }
+  catch (e) { return { st: "open", h: "" }; }
+  const hh = Number(P.hour) % 24, mm = Number(P.minute), m = hh * 60 + mm, wd = P.weekday, h = String(hh).padStart(2, "0") + ":" + String(mm).padStart(2, "0");
+  let st = "open";
+  if (PH_HOLIDAYS.indexOf(P.month + "-" + P.day) > -1 || wd === "Sun" || m < 480 || m >= 1260) st = "closed";
+  else if (wd === "Sat") st = m >= 900 ? "closed" : "open";
+  else if (wd === "Mon" || wd === "Wed") st = m >= 900 ? "maybe" : "open";
+  else st = m >= 870 && m < 1050 ? "maybe" : "open";
+  return { st: st, h: h };
+}
+function pharmBlock(pharm){
+  const t = T(), duty = D.contact && safeUrl(D.contact.duty), S = pharmState(), near = pharm.slice(0, 3);
+  if (!near.length && !duty) return "";
+  const ext = IC.ext.replace("<svg", '<svg style="width:18px;height:18px;flex:none"');
+  const dutyLink = duty ? `<a class="duty" href="${esc(duty)}" target="_blank" rel="noopener"><span><b style="font-weight:500">${esc(t.duty)}</b><small>${esc(t.dutySub)}</small></span>${ext}</a>` : "";
+  const nearMe = `<a class="duty" href="https://www.google.com/maps/search/?api=1&query=pharmacy" target="_blank" rel="noopener"><span><b style="font-weight:500">${esc(t.nearMe)}</b><small>${esc(t.nearMeSub)}</small></span>${ext}</a>`;
+  const note = S.st === "open" ? "" : `<p class="pst ${S.st}">${esc((S.st === "closed" ? t.pClosed : t.pMaybe).replace("{h}", S.h))}</p>` +
+    (S.st === "closed" && duty ? `<a class="btn red" href="${esc(duty)}" target="_blank" rel="noopener">${IC.pharmacy}${esc(t.duty)}</a>` : "");
+  return `<div class="hosp"><div class="k">${esc(near.length > 1 ? t.pharmN : t.nearestPharm)}</div>${note}
+        ${near.length ? `<div class="care" style="padding:0">${near.map((p, i) => careRow(p, i === 0)).join("")}</div>` : ""}
+        ${S.st === "closed" ? "" : dutyLink}${nearMe}</div>`;
+}
+
+Object.keys(U103).forEach(k => { if (U[k]) Object.keys(U103[k]).forEach(x => { if (U[k][x] === undefined) U[k][x] = U103[k][x]; }); });
+
 const HOSP0 = { name: "General Hospital of Rethymno", tel: "+302831342100", coords: [35.36431, 24.47137],
   maps: "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent("Γενικό Νοσοκομείο Ρεθύμνου Τρανταλλίδου") };
 const CARE = ["pharmacy", "health", "hospital"];
@@ -567,6 +625,37 @@ function renderWeather(){
   h += `<span class="src">Data: <a href="https://www.met.no/en" target="_blank" rel="noopener">MET Norway</a> · CC BY 4.0</span>`;
   el.innerHTML = h; el.hidden = false;
   if (!n && days && days[0]) { /* μόνο πρόγνωση */ }
+  try { wxExpOrder(); } catch (e) {}
+}
+
+/* ---------- v103: παράταση διαμονής (ρωτάει ο επισκέπτης, απαντά άνθρωπος) ---------- */
+function extHtml(){
+  const X = D && D.mode === "guest" && D.extend ? D.extend : null, n = X ? Number(X.nights) || 0 : 0;
+  if (!n || !X.dep) return "";
+  const t = T(), d = fmtDate(X.dep, { day: "numeric", month: "long" }), nn = n === 1 ? t.extN1 : t.extNn.replace("{x}", n);
+  return `<div class="ext"><h2>${esc(t.extT)}</h2><p>${esc(t.extB.replace("{n}", nn).replace("{d}", d))}</p>
+    <p><a class="btn dark" href="${wa(t.extMsg.replace("{d}", d))}" target="_blank" rel="noopener">${IC.chat}${esc(t.extBtn)}</a></p><small>${esc(t.extNote)}</small></div>`;
+}
+/* ---------- v103: σειρά εμπειριών ανάλογα με τον καιρό (μόνο αλλαγή σειράς, τίποτα δεν κρύβεται) ---------- */
+const EXP_IN = /chef|dinner|δε[ιί]πν|massage|μασ[αά]ζ|spa|wellness|ευεξ|wine|κρασ|οιν|tasting|γευσ|cook|μαγειρ|yoga|γιόγκα|baby ?sit|φύλαξ/i;
+const EXP_OUT = /boat|cruise|σκ[αά]φ|κρουαζ|sail|ιστιο|yacht|kayak|καγι[αά]κ|snorkel|div(e|ing)|κατ[αά]δ|beach|παραλ|jeep|safari|σαφ[αά]ρι|hik|πεζοπ|gorge|φαρ[αά]γγ|horse|[αά]λογ|surf|bike|ποδ[ηή]λ/i;
+function wxExpOrder(){
+  const rail = document.querySelector("#exp .rail"); if (!rail || !WX || !D || !D.exp || D.exp.length < 2) return;
+  const days = (WX.days || []).slice(0, 2), now = WX.now || {}, wind = typeof now.wind === "number" ? now.wind : null;
+  const wet = days.some(d => /rain|showers|storm/.test(wxKey(d.sym))), windy = wind !== null && wind >= 28;
+  const fine = !wet && !windy && days.length > 0 && days.every(d => /clear|fair|partly/.test(wxKey(d.sym))) && (wind === null || wind < 20);
+  const mode = wet || windy ? "in" : (fine ? "out" : "");
+  const old = document.querySelector("#exp .wxn"); if (old) old.remove();
+  if (!mode) return;
+  const kind = e => { const s = String(e.name || "") + " " + String(e.desc || ""); return EXP_IN.test(s) ? "in" : (EXP_OUT.test(s) ? "out" : ""); };
+  const pos = c => { const b = c.querySelector("[data-exp]"); return b ? Number(b.dataset.exp) : 999; };
+  const rank = c => { const e = D.exp[pos(c)]; const k = e ? kind(e) : ""; return k === mode ? 0 : (k === "" ? 1 : 2); };
+  const cards = Array.prototype.slice.call(rail.children);
+  if (!cards.some(c => rank(c) === 0)) return;
+  cards.sort((a, b) => rank(a) - rank(b) || pos(a) - pos(b)).forEach(c => rail.appendChild(c));
+  rail.scrollLeft = 0;
+  const t = T(), p = document.createElement("p"); p.className = "wxn"; p.textContent = mode === "in" ? t.wxIn : t.wxOut;
+  rail.parentNode.insertBefore(p, rail);
 }
 
 /* ---------- Κομμάτια ---------- */
@@ -620,7 +709,7 @@ function render(){
   if (!hosp) hosp = Object.assign({ cat: "hospital", km: V.coords ? haversine(V.coords, HOSP0.coords) : null }, HOSP0);
   const pharm = care.filter(p => p.cat === "pharmacy").sort((a, b) => (a.km == null ? 999 : a.km) - (b.km == null ? 999 : b.km));
   const health = care.filter(p => p.cat === "health").sort((a, b) => (a.km == null ? 999 : a.km) - (b.km == null ? 999 : b.km));
-  const moreCare = pharm.slice(1).concat(health);
+  const moreCare = pharm.slice(3).concat(health);   // v104: τα 3 κοντινότερα φαρμακεία φαίνονται πάνω
   const nearN = (D.poi || []).filter(p => CARE.indexOf(p.cat) < 0).length;
 
   const secs = [];
@@ -662,7 +751,7 @@ function render(){
     ${facts.length ? `<div class="facts-line">${facts.map(f => `<span><b>${esc(String(f[0]).trim())}</b> ${esc(f[1])}</span>`).join("")}</div>` : ""}
     ${G ? `<div class="me">${D.mode === "after" ? `<h2>${esc(t.thanks)}${G.first ? ", " + esc(G.first) : ""}</h2>` : `<h2>${esc(t.welcome.replace("{n}", G.first || ""))}</h2>`}
       <dl><div><dt>${esc(t.arr)}</dt><dd>${esc(fmtDate(G.arr))}</dd></div><div><dt>${esc(t.dep)}</dt><dd>${esc(fmtDate(G.dep))}${D.checkout ? " · " + esc(D.checkout) : ""}</dd></div></dl></div>` : ""}
-    ${couponHtml}
+    ${couponHtml}${extHtml()}
     <div class="tiles c${cols}">${tiles.join("")}</div>
     <div class="wx" id="wx" hidden></div>
 
@@ -676,9 +765,7 @@ function render(){
       </div>
       <div class="hosp"><div class="k">${esc(t.hosp)}</div><div class="n">${esc(hosp.name)}</div>${hosp.km != null || hosp.tip ? `<div class="m">${hosp.km != null ? esc(kmTxt(hosp.km)) : ""}${hosp.tip ? (hosp.km != null ? " · " : "") + esc(hosp.tip) : ""}</div>` : ""}
         <div class="acts2">${telUrl(hosp.tel) ? `<a class="btn red" href="${esc(telUrl(hosp.tel))}">${IC.phone}${esc(t.call)}</a>` : ""}<a class="btn" href="${esc(safeUrl(hosp.maps))}" target="_blank" rel="noopener">${IC.nav}${esc(t.directions)}</a></div></div>
-      ${pharm[0] || D.contact.duty ? `<div class="hosp"><div class="k">${esc(t.nearestPharm)}</div>
-        ${pharm[0] ? `<div class="care" style="padding:0">${careRow(pharm[0], true)}</div>` : ""}
-        ${D.contact.duty ? `<a class="duty" href="${esc(safeUrl(D.contact.duty))}" target="_blank" rel="noopener"><span><b style="font-weight:500">${esc(t.duty)}</b><small>${esc(t.dutySub)}</small></span>${IC.ext.replace("<svg", '<svg style="width:18px;height:18px;flex:none"')}</a>` : ""}</div>` : ""}
+      ${pharmBlock(pharm)}
       ${moreCare.length ? `<details><summary>${esc(t.nearCare)} (${moreCare.length})</summary><div class="care">${moreCare.map(careRow).join("")}</div></details>` : ""}
     </div>
 
