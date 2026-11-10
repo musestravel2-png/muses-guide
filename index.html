@@ -224,6 +224,7 @@ ol.steps li::before{content:counter(s);font-family:var(--display);font-size:1.4r
 .dist{position:absolute;top:10px;right:10px;z-index:1;font-size:12px;font-weight:500;background:color-mix(in srgb,var(--card) 92%,transparent);border-radius:999px;padding:3px 9px;font-variant-numeric:tabular-nums}
 .card .in{padding:12px 14px 14px;display:flex;flex-direction:column;gap:4px;flex:1}
 .card h4{margin:0;font-size:16px;font-weight:600;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.rt{display:inline-block;margin:3px 0 0;font-size:12.5px;font-weight:600;color:var(--accent);font-variant-numeric:tabular-nums}
 .card .meta{font-size:12.5px;color:var(--muted)}
 .card p{margin:2px 0 0;font-size:14px;color:var(--ink);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .card .acts2{margin-top:auto;padding-top:10px}
@@ -686,26 +687,34 @@ function fileList(files){
   return (imgs.length ? `<div class="photos">${imgs.map(f => `<a href="${esc(safeUrl(f.url))}" target="_blank" rel="noopener"><img src="${esc(safeUrl(f.url))}" alt="${esc(f.name)}" loading="lazy"></a>`).join("")}</div>` : "") +
          (pdfs.length ? `<div style="margin-top:8px">${pdfs.map(f => `<a class="pdf" href="${esc(safeUrl(f.url))}" target="_blank" rel="noopener">${esc(f.name)}</a>`).join("")}</div>` : "");
 }
+function dirUrl(p){   // 🧭 v106: πάντα έγκυρος σύνδεσμος Google Maps (συντεταγμένες → σύνδεσμος γραμμής → αναζήτηση ονόματος)
+  if (p && p.ll && p.ll.length === 2 && isFinite(p.ll[0]) && isFinite(p.ll[1])) return "https://www.google.com/maps/dir/?api=1&destination=" + p.ll[0] + "," + p.ll[1];
+  let m = String((p && p.maps) || "").trim();
+  if (/^https?:\/\//i.test(m)) return m.replace(/^http:/i, "https:");
+  if (/^(maps\.app\.goo\.gl|goo\.gl\/maps|(www\.)?google\.[a-z.]+\/maps|maps\.google\.)/i.test(m)) return "https://" + m;
+  return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(((p && p.name) || "") + " Crete");
+}
+function rateTxt(p){ return p && p.rating != null ? "★ " + new Intl.NumberFormat(T().loc, { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(p.rating) : ""; }
 function poiCard(p, showCat){
   const t = T(), ph = safeUrl(p.photo), tel = telUrl(p.tel);
   return `<article class="card"><div class="top${ph ? " ph" : ""}">${ph ? `<img src="${esc(ph)}" alt="" loading="lazy">` : (CAT_IC[p.cat] || IC.pin)}
       ${p.pick ? `<span class="badge">${esc(t.pick)}</span>` : ""}${p.km != null ? `<span class="dist">${esc(kmTxt(p.km))}</span>` : ""}</div>
-    <div class="in"><h4>${esc(p.name)}</h4>${showCat ? `<div class="meta">${esc(t.cats[p.cat] || "")}</div>` : ""}${p.tip ? `<p>${esc(p.tip)}</p>` : ""}
-      <div class="acts2"><a class="btn sm dark" href="${esc(safeUrl(p.maps))}" target="_blank" rel="noopener">${IC.nav}${esc(t.directions)}</a>${tel ? `<a class="btn sm" href="${esc(tel)}">${IC.phone}${esc(t.call)}</a>` : ""}</div></div></article>`;
+    <div class="in"><h4>${esc(p.name)}</h4>${p.rating != null ? `<span class="rt">${esc(rateTxt(p))}</span>` : ""}${showCat ? `<div class="meta">${esc(t.cats[p.cat] || "")}</div>` : ""}${p.tip ? `<p>${esc(p.tip)}</p>` : ""}
+      <div class="acts2"><a class="btn sm dark" href="${esc(dirUrl(p))}" target="_blank" rel="noopener">${IC.nav}${esc(t.directions)}</a>${tel ? `<a class="btn sm" href="${esc(tel)}">${IC.phone}${esc(t.call)}</a>` : ""}</div></div></article>`;
 }
 function careRow(p, first){
   const t = T(), tel = telUrl(p.tel), kind = p.cat === "pharmacy" ? t.pharm : (p.cat === "hospital" ? t.hosp : t.healthC);
   return `<div class="it${first ? " first" : ""}"><span class="ico">${CAT_IC[p.cat] || IC.health}</span><div><b>${esc(p.name)}</b>
-      <small>${esc(kind)}${p.km != null ? " · " + esc(kmTxt(p.km)) : ""}</small>${p.tip ? `<small class="tip">${esc(p.tip)}</small>` : ""}
-      <div class="acts2">${tel ? `<a class="btn sm red" href="${esc(tel)}">${IC.phone}${esc(t.call)}</a>` : ""}<a class="btn sm" href="${esc(safeUrl(p.maps))}" target="_blank" rel="noopener">${IC.nav}${esc(t.directions)}</a></div></div></div>`;
+      <small>${esc(kind)}${p.km != null ? " · " + esc(kmTxt(p.km)) : ""}${p.rating != null ? " · " + esc(rateTxt(p)) : ""}</small>${p.tip ? `<small class="tip">${esc(p.tip)}</small>` : ""}
+      <div class="acts2">${tel ? `<a class="btn sm red" href="${esc(tel)}">${IC.phone}${esc(t.call)}</a>` : ""}<a class="btn sm" href="${esc(dirUrl(p))}" target="_blank" rel="noopener">${IC.nav}${esc(t.directions)}</a></div></div></div>`;
 }
 function nearbyGroups(){
   const t = T(), list = (D.poi || []).filter(p => CARE.indexOf(p.cat) < 0), g = [];
   const kmOf = p => p.km == null ? 999 : p.km;
-  const picks = list.filter(p => p.pick).sort((a, b) => (!!b.must - !!a.must) || (kmOf(a) - kmOf(b))).slice(0, 12);
+  const picks = list.filter(p => p.pick).sort((a, b) => (!!b.must - !!a.must) || (kmOf(a) - kmOf(b))).slice(0, 12).sort((a, b) => kmOf(a) - kmOf(b));   // 📍 v106: επιλογή must πρώτα, εμφάνιση από το πλησιέστερο
   if (picks.length >= 2) g.push({ id: "picks", label: t.picks, icon: IC.star, items: picks, mixed: true });
-  CHIP_ORDER.forEach(c => { const it = list.filter(p => p.cat === c); if (it.length) g.push({ id: c, label: t.cats[c] || c, icon: CAT_IC[c], items: it }); });
-  const pr = list.filter(p => PRACTICAL.indexOf(p.cat) > -1);
+  CHIP_ORDER.forEach(c => { const it = list.filter(p => p.cat === c).sort((a, b) => kmOf(a) - kmOf(b)); if (it.length) g.push({ id: c, label: t.cats[c] || c, icon: CAT_IC[c], items: it }); });
+  const pr = list.filter(p => PRACTICAL.indexOf(p.cat) > -1).sort((a, b) => (PRACTICAL.indexOf(a.cat) - PRACTICAL.indexOf(b.cat)) || (kmOf(a) - kmOf(b)));
   if (pr.length) g.push({ id: "practical", label: t.practical, icon: IC.market, items: pr, mixed: true });
   list.filter(p => CHIP_ORDER.indexOf(p.cat) < 0 && PRACTICAL.indexOf(p.cat) < 0).forEach(p => { let x = g.find(y => y.id === p.cat); if (!x) g.push(x = { id: p.cat, label: t.cats[p.cat] || p.cat, icon: CAT_IC[p.cat] || IC.pin, items: [] }); x.items.push(p); });
   return g;
@@ -786,7 +795,7 @@ function render(){
         <a class="num" href="${wa(t.hello)}" target="_blank" rel="noopener"><b style="display:grid">${IC.chat.replace("<svg", '<svg style="width:22px;height:22px"')}</b><span>Muses · WhatsApp</span></a>
       </div>
       <div class="hosp"><div class="k">${esc(t.hosp)}</div><div class="n">${esc(hosp.name)}</div>${hosp.km != null || hosp.tip ? `<div class="m">${hosp.km != null ? esc(kmTxt(hosp.km)) : ""}${hosp.tip ? (hosp.km != null ? " · " : "") + esc(hosp.tip) : ""}</div>` : ""}
-        <div class="acts2">${telUrl(hosp.tel) ? `<a class="btn red" href="${esc(telUrl(hosp.tel))}">${IC.phone}${esc(t.call)}</a>` : ""}<a class="btn" href="${esc(safeUrl(hosp.maps))}" target="_blank" rel="noopener">${IC.nav}${esc(t.directions)}</a></div></div>
+        <div class="acts2">${telUrl(hosp.tel) ? `<a class="btn red" href="${esc(telUrl(hosp.tel))}">${IC.phone}${esc(t.call)}</a>` : ""}<a class="btn" href="${esc(dirUrl(hosp))}" target="_blank" rel="noopener">${IC.nav}${esc(t.directions)}</a></div></div>
       ${pharmBlock(pharm)}
       ${moreCare.length ? `<details><summary>${esc(t.nearCare)} (${moreCare.length})</summary><div class="care">${moreCare.map(careRow).join("")}</div></details>` : ""}
     </div>
