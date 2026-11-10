@@ -157,6 +157,10 @@ h1{font-family:var(--display);font-weight:400;font-size:clamp(2rem,8.5vw,2.9rem)
 .iconbtn svg{width:18px;height:18px}
 .duty{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0 8px;border-top:1px solid var(--line);font-size:14px;text-decoration:none}
 .duty small{display:block;color:var(--muted);font-size:12.5px}
+.dlv{margin-top:14px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
+.dlv .k{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.dlv p{margin:6px 0 4px;font-size:13.5px;color:var(--muted)}
+.dlv .duty:first-of-type{margin-top:6px}
 .pst{margin:6px 0 8px;padding:9px 11px;border-radius:10px;font-size:13.5px;line-height:1.4;background:var(--sos-bg);color:var(--sos)}
 .pst.maybe{background:var(--accent-soft);color:inherit}
 .pst + .btn{margin-bottom:6px}
@@ -446,6 +450,23 @@ const U104 = {
   ro: { pClosed: "Acum ({h}) farmaciile din Creta sunt de obicei închise. Vedeți care sunt de gardă.", pMaybe: "Multe farmacii închid la prânz și în după-amiezile de luni și miercuri. Sunați înainte sau vedeți farmaciile de gardă.", nearMe: "Farmacii lângă mine acum", nearMeSub: "Google Maps · arată care sunt deschise", pharmN: "Cele mai apropiate farmacii" }
 };
 Object.keys(U104).forEach(k => { if (U[k]) Object.keys(U104[k]).forEach(x => { if (U[k][x] === undefined) U[k][x] = U104[k][x]; }); });
+/* v105: διανομή στη βίλα (πληροφορία μόνο· η Muses δεν έχει συνεργασία ούτε όφελος) */
+const U105 = {
+  el: { dlvT: "Παραγγελία στη βίλα (delivery)", dlvB: "Φαγητό και ψώνια μπορούν να έρθουν στη βίλα μέσω εφαρμογών. Η κάλυψη εξαρτάται από τη διεύθυνση και την ώρα: γράψτε τη διεύθυνση της βίλας στην εφαρμογή για να δείτε τι είναι διαθέσιμο. Η Muses δεν συνεργάζεται με αυτές τις υπηρεσίες και δεν έχει κανένα όφελος.", dlvE: "Εστιατόρια και σούπερ μάρκετ", dlvF: "Ελληνική πλατφόρμα με καταστήματα του Ρεθύμνου", dlvX: "Φαγητό, ψώνια και σούπερ μάρκετ" },
+  en: { dlvT: "Delivery to the villa", dlvB: "Food and groceries can be delivered to the villa through these apps. Availability depends on the address and the time of day: enter the villa address in the app to see what is on offer. Muses has no partnership with these services and receives nothing from them.", dlvE: "Restaurants and supermarkets", dlvF: "Greek platform with shops from Rethymno", dlvX: "Food, groceries and supermarkets" },
+  de: { dlvT: "Lieferung zur Villa", dlvB: "Essen und Lebensmittel können über diese Apps zur Villa geliefert werden. Das Angebot hängt von Adresse und Tageszeit ab: Geben Sie die Adresse der Villa in der App ein, um es zu sehen. Muses hat keine Partnerschaft mit diesen Diensten und erhält nichts von ihnen.", dlvE: "Restaurants und Supermärkte", dlvF: "Griechische Plattform mit Geschäften aus Rethymno", dlvX: "Essen, Lebensmittel und Supermärkte" },
+  fr: { dlvT: "Livraison à la villa", dlvB: "Repas et courses peuvent être livrés à la villa via ces applications. La disponibilité dépend de l’adresse et de l’heure : saisissez l’adresse de la villa dans l’application pour voir l’offre. Muses n’a aucun partenariat avec ces services et ne perçoit rien.", dlvE: "Restaurants et supermarchés", dlvF: "Plateforme grecque avec des commerces de Réthymnon", dlvX: "Repas, courses et supermarchés" },
+  nl: { dlvT: "Bezorging naar de villa", dlvB: "Eten en boodschappen kunnen via deze apps naar de villa worden bezorgd. Het aanbod hangt af van het adres en het tijdstip: voer het adres van de villa in de app in om te zien wat beschikbaar is. Muses heeft geen samenwerking met deze diensten en ontvangt niets.", dlvE: "Restaurants en supermarkten", dlvF: "Griekse platform met winkels uit Rethymno", dlvX: "Eten, boodschappen en supermarkten" },
+  pl: { dlvT: "Dostawa do willi", dlvB: "Jedzenie i zakupy można zamówić do willi przez te aplikacje. Dostępność zależy od adresu i pory dnia: wpisz adres willi w aplikacji, aby zobaczyć ofertę. Muses nie współpracuje z tymi usługami i nic z nich nie otrzymuje.", dlvE: "Restauracje i supermarkety", dlvF: "Grecka platforma ze sklepami z Retimno", dlvX: "Jedzenie, zakupy i supermarkety" },
+  ro: { dlvT: "Livrare la vilă", dlvB: "Mâncarea și cumpărăturile pot fi livrate la vilă prin aceste aplicații. Disponibilitatea depinde de adresă și de ora zilei: introduceți adresa vilei în aplicație pentru a vedea oferta. Muses nu are niciun parteneriat cu aceste servicii și nu primește nimic de la ele.", dlvE: "Restaurante și supermarketuri", dlvF: "Platformă grecească cu magazine din Rethymno", dlvX: "Mâncare, cumpărături și supermarketuri" }
+};
+Object.keys(U105).forEach(k => { if (U[k]) Object.keys(U105[k]).forEach(x => { if (U[k][x] === undefined) U[k][x] = U105[k][x]; }); });
+function dlvBlock(){
+  const t = T(), ext = IC.ext.replace("<svg", '<svg style="width:18px;height:18px;flex:none"');
+  const row = (name, sub, url) => `<a class="duty" href="${url}" target="_blank" rel="noopener"><span><b style="font-weight:500">${name}</b><small>${esc(sub)}</small></span>${ext}</a>`;
+  return `<div class="dlv"><div class="k">${esc(t.dlvT)}</div><p>${esc(t.dlvB)}</p>
+    ${row("efood", t.dlvE, "https://www.efood.gr/")}${row("fagi.gr", t.dlvF, "https://www.fagi.gr/")}${row("BOX", t.dlvX, "https://box.gr/")}</div>`;
+}
 /* Συνηθισμένο ωράριο φαρμακείων (ώρα Ελλάδας): "closed" = σχεδόν σίγουρα κλειστά · "maybe" = πολλά κλειστά · "open" */
 const PH_HOLIDAYS = ["01-01", "01-06", "03-25", "05-01", "08-15", "10-28", "12-25", "12-26"];
 function pharmState(now){
@@ -696,7 +717,8 @@ function renderNearby(){
   const cur = g.find(x => x.id === filter);
   el.innerHTML = `<div class="filters" role="group" aria-label="${esc(t.nav.nearby)}">${g.map(x => `<button type="button" data-f="${esc(x.id)}" aria-pressed="${x.id === filter}">${x.icon || ""}${esc(x.label)} <small>${x.items.length}</small></button>`).join("")}</div>
     <div class="rail" id="rail">${cur.items.map(p => poiCard(p, cur.mixed)).join("")}</div>
-    ${cur.items.length > 1 ? `<p class="hint"><span>${esc(t.swipe)} →</span><span>${cur.items.length} ${esc(t.places)}</span></p>` : ""}`;
+    ${cur.items.length > 1 ? `<p class="hint"><span>${esc(t.swipe)} →</span><span>${cur.items.length} ${esc(t.places)}</span></p>` : ""}
+    ${cur.id === "practical" || cur.id === "food" ? dlvBlock() : ""}`;
 }
 
 /* ---------- Σελίδα ---------- */
