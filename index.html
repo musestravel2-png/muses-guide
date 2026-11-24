@@ -231,6 +231,34 @@ ol.steps li::before{content:counter(s);font-family:var(--display);font-size:1.4r
 .card .price{font-size:13px;color:var(--muted)}
 .card .price b{color:var(--ink);font-size:15px}
 .hint{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--muted);margin:2px 0 0}
+/* v127: οδηγός v2 — κάρτες που ανοίγουν, έτοιμες μέρες, συμβουλές */
+.card details.more{border-top:1px solid var(--line);margin-top:8px}
+.card details.more summary{min-height:38px;padding:8px 0;font-size:13px;font-weight:500;color:var(--muted)}
+.card details.more summary::after{font-size:16px}
+.card details.more dl{margin:0 0 6px;display:grid;gap:8px}
+.card details.more dt{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card details.more dd{margin:1px 0 0;font-size:13.5px;line-height:1.4}
+.card .why{font-size:12px;color:var(--accent);font-weight:600}
+.sub{color:var(--muted);margin-top:-6px}
+.filters.sub2{padding-top:0;padding-bottom:10px}
+.filters.sub2 button{min-height:34px;padding:0 12px;font-size:13px;background:transparent}
+.filters.sub2 button[aria-pressed="true"]{background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}
+details.day{text-align:left}
+details.day summary span{display:block;min-width:0}
+details.day summary b{display:block;font-weight:600;font-size:16px;line-height:1.3;color:var(--ink)}
+details.day summary small{display:block;color:var(--muted);font-size:12.5px;font-weight:400;margin-top:2px}
+details.day summary em{font-style:normal;color:var(--accent);font-weight:600}
+ol.tl{list-style:none;padding:0;margin:6px 0 14px}
+ol.tl li{display:grid;grid-template-columns:52px 1fr;gap:10px;padding:10px 0;border-top:1px dashed var(--line)}
+ol.tl li:first-child{border-top:0}
+ol.tl .tm{font-family:var(--mono);font-size:13px;color:var(--muted);padding-top:2px;font-variant-numeric:tabular-nums}
+ol.tl b{font-weight:600;font-size:14.5px}
+ol.tl b a{text-decoration:underline;text-underline-offset:3px}
+ol.tl p{margin:3px 0 0;font-size:14px;color:var(--ink)}
+ul.tips{list-style:none;padding:0;margin:0}
+ul.tips li{padding:11px 0 11px 22px;border-top:1px solid var(--line);position:relative;font-size:14.5px;line-height:1.5}
+ul.tips li:first-child{border-top:0}
+ul.tips li::before{content:"";position:absolute;left:4px;top:19px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
 .dots{display:flex;gap:5px}
 .dots i{width:6px;height:6px;border-radius:50%;background:var(--line)}
 .dots i.on{background:var(--ink)}
@@ -428,6 +456,60 @@ ro:{ picks:"Alegerile Muses", practical:"Practic", swipe:"Glisați pentru mai mu
  wx2:{clear:"Cer senin",fair:"Predominant însorit",partly:"Parțial noros",cloudy:"Înnorat",fog:"Ceață",rain:"Ploaie",showers:"Averse",storm:"Furtună",snow:"Ninsoare"} }
 };
 for (const k in U2) Object.assign(U[k], U2[k]);
+/* Νέες λέξεις διεπαφής (v127 · οδηγός v2): για εσάς, έτοιμες μέρες, αξίζει τη διαδρομή, καλό να ξέρετε */
+const U3 = {
+el:{ nav:{foryou:"Για εσάς",days:"Έτοιμες μέρες",trips:"Αξίζει τη διαδρομή",tips:"Καλό να ξέρετε"},
+ fyT:"Διαλεγμένα για εσάς", fySub:"Με βάση την παρέα σας. Όλα τα υπόλοιπα είναι πιο κάτω.", suits:"Ταιριάζει στην παρέα σας",
+ why:{kids:"Για παιδιά",family:"Για οικογένειες",romantic:"Για δύο",nightlife:"Για βραδινή έξοδο",quiet:"Ήσυχο",active:"Για δράση",culture:"Πολιτισμός",local:"Τοπική γεύση",access:"Εύκολη πρόσβαση"},
+ daysSub:"Ολόκληρες μέρες στημένες από εμάς, με ώρες. Ακολουθήστε τις πιστά ή όπως σας βγει.", tripsSub:"Λίγο πιο μακριά, αλλά αξίζουν τον δρόμο.", tipsSub:"Όσα δεν σας λέει το Google.",
+ drive:"≈ {m}′ οδήγηση", firstStop:"≈ {m}′ ως την πρώτη στάση", stops:"στάσεις", details:"Περισσότερα", best:"Καλύτερη ώρα", parking:"Στάθμευση", fac:"Τι θα βρείτε", idealFor:"Ιδανικό για",
+ byOcc:"Ανά περίσταση", oc:{village:"Ταβέρνα χωριού",bythesea:"Δίπλα στο κύμα",seafood:"Ψάρι & θαλασσινά",meze:"Μεζέδες & ρακή",special:"Ξεχωριστή βραδιά",drinks:"Για ένα ποτό",teens:"Για εφήβους",dessert:"Γλυκό"},
+ arrange:"Να το οργανώσουμε εμείς;", arrangeMsg:"Γεια σας! Θα θέλαμε βοήθεια για: {x}", showAll:"Όλες οι συμβουλές ({n})" },
+en:{ nav:{foryou:"For you",days:"Ready-made days",trips:"Worth the drive",tips:"Good to know"},
+ fyT:"Chosen for you", fySub:"Based on who is travelling. Everything else is further down.", suits:"Suits your group",
+ why:{kids:"Great with kids",family:"Family friendly",romantic:"For two",nightlife:"A night out",quiet:"Quiet",active:"Active",culture:"Culture",local:"Local flavour",access:"Easy access"},
+ daysSub:"Whole days planned by us, with timings. Follow them exactly or bend them to your mood.", tripsSub:"A little further away, and worth the road.", tipsSub:"The things Google doesn’t tell you.",
+ drive:"≈ {m} min drive", firstStop:"≈ {m} min to the first stop", stops:"stops", details:"More", best:"Best time", parking:"Parking", fac:"On site", idealFor:"Ideal for",
+ byOcc:"By occasion", oc:{village:"Village taverna",bythesea:"By the water",seafood:"Fish & seafood",meze:"Meze & raki",special:"A special evening",drinks:"For a drink",teens:"For teenagers",dessert:"Dessert"},
+ arrange:"Shall we arrange it?", arrangeMsg:"Hello! We would like help with: {x}", showAll:"All tips ({n})" },
+de:{ nav:{foryou:"Für Sie",days:"Fertige Tage",trips:"Die Fahrt wert",tips:"Gut zu wissen"},
+ fyT:"Für Sie ausgewählt", fySub:"Passend zu Ihrer Reisegruppe. Alles Weitere finden Sie weiter unten.", suits:"Passt zu Ihrer Gruppe",
+ why:{kids:"Toll mit Kindern",family:"Familienfreundlich",romantic:"Für zwei",nightlife:"Zum Ausgehen",quiet:"Ruhig",active:"Aktiv",culture:"Kultur",local:"Lokaler Geschmack",access:"Leicht zugänglich"},
+ daysSub:"Ganze Tage, von uns geplant, mit Uhrzeiten. Folgen Sie ihnen genau oder nach Lust und Laune.", tripsSub:"Etwas weiter weg, aber die Fahrt wert.", tipsSub:"Was Google Ihnen nicht verrät.",
+ drive:"≈ {m} Min. Fahrt", firstStop:"≈ {m} Min. bis zum ersten Stopp", stops:"Stopps", details:"Mehr", best:"Beste Zeit", parking:"Parken", fac:"Vor Ort", idealFor:"Ideal für",
+ byOcc:"Nach Anlass", oc:{village:"Dorftaverne",bythesea:"Direkt am Wasser",seafood:"Fisch & Meeresfrüchte",meze:"Meze & Raki",special:"Besonderer Abend",drinks:"Auf einen Drink",teens:"Für Teenager",dessert:"Dessert"},
+ arrange:"Sollen wir es organisieren?", arrangeMsg:"Hallo! Wir hätten gern Hilfe bei: {x}", showAll:"Alle Tipps ({n})" },
+fr:{ nav:{foryou:"Pour vous",days:"Journées clés en main",trips:"Vaut le détour",tips:"Bon à savoir"},
+ fyT:"Choisi pour vous", fySub:"Selon votre groupe. Tout le reste se trouve plus bas.", suits:"Idéal pour votre groupe",
+ why:{kids:"Parfait avec des enfants",family:"Pour les familles",romantic:"À deux",nightlife:"Pour sortir le soir",quiet:"Calme",active:"Actif",culture:"Culture",local:"Saveurs locales",access:"Accès facile"},
+ daysSub:"Des journées entières préparées par nos soins, avec les horaires. Suivez-les à la lettre ou selon votre humeur.", tripsSub:"Un peu plus loin, mais la route en vaut la peine.", tipsSub:"Ce que Google ne vous dit pas.",
+ drive:"≈ {m} min de route", firstStop:"≈ {m} min jusqu’au premier arrêt", stops:"étapes", details:"En savoir plus", best:"Meilleur moment", parking:"Stationnement", fac:"Sur place", idealFor:"Idéal pour",
+ byOcc:"Selon l’occasion", oc:{village:"Taverne de village",bythesea:"Les pieds dans l’eau",seafood:"Poisson & fruits de mer",meze:"Mezzés & raki",special:"Soirée spéciale",drinks:"Pour un verre",teens:"Pour les ados",dessert:"Dessert"},
+ arrange:"On s’en occupe ?", arrangeMsg:"Bonjour ! Nous aimerions de l’aide pour : {x}", showAll:"Tous les conseils ({n})" },
+nl:{ nav:{foryou:"Voor u",days:"Kant-en-klare dagen",trips:"De rit waard",tips:"Goed om te weten"},
+ fyT:"Voor u uitgekozen", fySub:"Op basis van uw gezelschap. Al het andere staat verderop.", suits:"Past bij uw gezelschap",
+ why:{kids:"Leuk met kinderen",family:"Gezinsvriendelijk",romantic:"Voor twee",nightlife:"Avondje uit",quiet:"Rustig",active:"Actief",culture:"Cultuur",local:"Lokale smaak",access:"Makkelijk bereikbaar"},
+ daysSub:"Hele dagen door ons uitgestippeld, met tijden. Volg ze precies of zoals het u uitkomt.", tripsSub:"Iets verder weg, maar de rit waard.", tipsSub:"Wat Google u niet vertelt.",
+ drive:"≈ {m} min rijden", firstStop:"≈ {m} min tot de eerste stop", stops:"stops", details:"Meer", best:"Beste moment", parking:"Parkeren", fac:"Ter plaatse", idealFor:"Ideaal voor",
+ byOcc:"Per gelegenheid", oc:{village:"Dorpstaverne",bythesea:"Aan het water",seafood:"Vis & zeevruchten",meze:"Meze & raki",special:"Bijzondere avond",drinks:"Voor een drankje",teens:"Voor tieners",dessert:"Dessert"},
+ arrange:"Zullen wij het regelen?", arrangeMsg:"Hallo! We willen graag hulp bij: {x}", showAll:"Alle tips ({n})" },
+pl:{ nav:{foryou:"Dla Państwa",days:"Gotowe dni",trips:"Warto pojechać",tips:"Warto wiedzieć"},
+ fyT:"Wybrane dla Państwa", fySub:"Dopasowane do Państwa grupy. Wszystko inne znajduje się niżej.", suits:"Pasuje do Państwa grupy",
+ why:{kids:"Świetne z dziećmi",family:"Dla rodzin",romantic:"We dwoje",nightlife:"Na wieczorne wyjście",quiet:"Spokojnie",active:"Aktywnie",culture:"Kultura",local:"Lokalne smaki",access:"Łatwy dostęp"},
+ daysSub:"Całe dni zaplanowane przez nas, z godzinami. Można trzymać się planu albo go dowolnie zmieniać.", tripsSub:"Nieco dalej, ale warte drogi.", tipsSub:"Czego nie powie Google.",
+ drive:"≈ {m} min jazdy", firstStop:"≈ {m} min do pierwszego przystanku", stops:"przystanków", details:"Więcej", best:"Najlepsza pora", parking:"Parking", fac:"Na miejscu", idealFor:"Idealne na",
+ byOcc:"Na każdą okazję", oc:{village:"Wiejska tawerna",bythesea:"Tuż nad wodą",seafood:"Ryby i owoce morza",meze:"Meze i raki",special:"Wyjątkowy wieczór",drinks:"Na drinka",teens:"Dla nastolatków",dessert:"Deser"},
+ arrange:"Czy mamy to zorganizować?", arrangeMsg:"Dzień dobry! Prosimy o pomoc w sprawie: {x}", showAll:"Wszystkie wskazówki ({n})" },
+ro:{ nav:{foryou:"Pentru dvs.",days:"Zile gata planificate",trips:"Merită drumul",tips:"Bine de știut"},
+ fyT:"Alese pentru dvs.", fySub:"În funcție de grupul dvs. Tot restul se află mai jos.", suits:"Se potrivește grupului dvs.",
+ why:{kids:"Excelent cu copiii",family:"Pentru familii",romantic:"În doi",nightlife:"Pentru o seară în oraș",quiet:"Liniștit",active:"Activ",culture:"Cultură",local:"Gust local",access:"Acces ușor"},
+ daysSub:"Zile întregi planificate de noi, cu ore. Urmați-le întocmai sau după cum aveți chef.", tripsSub:"Puțin mai departe, dar merită drumul.", tipsSub:"Ce nu vă spune Google.",
+ drive:"≈ {m} min cu mașina", firstStop:"≈ {m} min până la prima oprire", stops:"opriri", details:"Mai mult", best:"Cel mai bun moment", parking:"Parcare", fac:"La fața locului", idealFor:"Ideal pentru",
+ byOcc:"După ocazie", oc:{village:"Tavernă de sat",bythesea:"Lângă apă",seafood:"Pește și fructe de mare",meze:"Meze și raki",special:"O seară specială",drinks:"Pentru un pahar",teens:"Pentru adolescenți",dessert:"Desert"},
+ arrange:"Să organizăm noi?", arrangeMsg:"Bună ziua! Am dori ajutor pentru: {x}", showAll:"Toate sfaturile ({n})" }
+};
+for (const k in U3) { Object.assign(U[k].nav, U3[k].nav); const o = Object.assign({}, U3[k]); delete o.nav; Object.assign(U[k], o); }
+const OCC_ORDER = ["village", "bythesea", "seafood", "meze", "special", "drinks", "teens", "dessert"];
 const DEFAULT_WA = "306987293581";
 // Αν δεν υπάρχει γραμμή «Νοσοκομείο» στο POI, ο οδηγός δείχνει πάντα αυτό
 /* v103: παράταση διαμονής + σειρά εμπειριών ανάλογα με τον καιρό */
@@ -511,7 +593,7 @@ const store = { get(k){ try{ return localStorage.getItem(k); }catch(e){ return n
 let lang = (Q.get("lang") || store.get("muses-guide-lang") || (navigator.language || "en").slice(0,2)).toLowerCase();
 if (lang === "gr") lang = "el";
 if (!U[lang]) lang = "en";
-let D = null, filter = "", WX = null;
+let D = null, filter = "", WX = null, occF = "";
 
 const $ = s => document.querySelector(s);
 const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -695,12 +777,23 @@ function dirUrl(p){   // 🧭 v106: πάντα έγκυρος σύνδεσμος
   return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(((p && p.name) || "") + " Crete");
 }
 function rateTxt(p){ return p && p.rating != null ? "★ " + new Intl.NumberFormat(T().loc, { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(p.rating) : ""; }
+function poiMore(p){   // v127: προαιρετικά στοιχεία κάρτας (POI_EXTRA)
+  const t = T(), rows = [[t.best, p.best], [t.parking, p.park], [t.fac, p.fac], [t.idealFor, p.good]].filter(x => x[1]);
+  return rows.length ? `<details class="more"><summary>${esc(t.details)}</summary><dl>${rows.map(r => `<div><dt>${esc(r[0])}</dt><dd>${esc(r[1])}</dd></div>`).join("")}</dl></details>` : "";
+}
+function distTxt(p){ const t = T(); return p.km == null ? "" : (p.trip && p.min ? t.drive.replace("{m}", p.min) : kmTxt(p.km)); }
 function poiCard(p, showCat){
-  const t = T(), ph = safeUrl(p.photo), tel = telUrl(p.tel);
+  const t = T(), ph = safeUrl(p.photo), tel = telUrl(p.tel), dt = distTxt(p);
   return `<article class="card"><div class="top${ph ? " ph" : ""}">${ph ? `<img src="${esc(ph)}" alt="" loading="lazy">` : (CAT_IC[p.cat] || IC.pin)}
-      ${p.pick ? `<span class="badge">${esc(t.pick)}</span>` : ""}${p.km != null ? `<span class="dist">${esc(kmTxt(p.km))}</span>` : ""}</div>
-    <div class="in"><h4>${esc(p.name)}</h4>${p.rating != null ? `<span class="rt">${esc(rateTxt(p))}</span>` : ""}${showCat ? `<div class="meta">${esc(t.cats[p.cat] || "")}</div>` : ""}${p.tip ? `<p>${esc(p.tip)}</p>` : ""}
+      ${p.pick ? `<span class="badge">${esc(t.pick)}</span>` : ""}${dt ? `<span class="dist">${esc(dt)}</span>` : ""}</div>
+    <div class="in"><h4>${esc(p.name)}</h4>${p.rating != null ? `<span class="rt">${esc(rateTxt(p))}</span>` : ""}${p.why && t.why[p.why] ? `<div class="why">${esc(t.why[p.why])}</div>` : ""}${showCat ? `<div class="meta">${esc(t.cats[p.cat] || "")}</div>` : ""}${p.tip ? `<p>${esc(p.tip)}</p>` : ""}${poiMore(p)}
       <div class="acts2"><a class="btn sm dark" href="${esc(dirUrl(p))}" target="_blank" rel="noopener">${IC.nav}${esc(t.directions)}</a>${tel ? `<a class="btn sm" href="${esc(tel)}">${IC.phone}${esc(t.call)}</a>` : ""}</div></div></article>`;
+}
+function dayCard(d){   // v127: έτοιμη μέρα (στάσεις με ώρα· το όνομα ανοίγει οδηγίες όταν η στάση είναι σημείο του POI)
+  const t = T(), meta = [d.min ? t.firstStop.replace("{m}", d.min) : "", d.stops.length + " " + t.stops].filter(Boolean).join(" · ");
+  return `<details class="day"><summary><span><b>${esc(d.title)}</b><small>${esc(meta)}${d.fy ? ` · <em>${esc(d.why && t.why[d.why] ? t.why[d.why] : t.suits)}</em>` : ""}</small></span></summary><div class="body">
+    ${d.intro ? `<p>${esc(d.intro)}</p>` : ""}<ol class="tl">${d.stops.map(s => `<li><span class="tm">${esc(s.time || "")}</span><div><b>${s.maps || s.ll ? `<a href="${esc(dirUrl(s))}" target="_blank" rel="noopener">${esc(s.name)}</a>` : esc(s.name)}</b>${s.note ? `<p>${esc(s.note)}</p>` : ""}</div></li>`).join("")}</ol>
+    <p><a class="btn dark" href="${wa(t.arrangeMsg.replace("{x}", d.title))}" target="_blank" rel="noopener">${IC.chat}${esc(t.arrange)}</a></p></div></details>`;
 }
 function careRow(p, first){
   const t = T(), tel = telUrl(p.tel), kind = p.cat === "pharmacy" ? t.pharm : (p.cat === "hospital" ? t.hosp : t.healthC);
@@ -709,10 +802,12 @@ function careRow(p, first){
       <div class="acts2">${tel ? `<a class="btn sm red" href="${esc(tel)}">${IC.phone}${esc(t.call)}</a>` : ""}<a class="btn sm" href="${esc(dirUrl(p))}" target="_blank" rel="noopener">${IC.nav}${esc(t.directions)}</a></div></div></div>`;
 }
 function nearbyGroups(){
-  const t = T(), list = (D.poi || []).filter(p => CARE.indexOf(p.cat) < 0), g = [];
+  const t = T(), list = (D.poi || []).filter(p => CARE.indexOf(p.cat) < 0 && !p.trip), g = [];
   const kmOf = p => p.km == null ? 999 : p.km;
   const picks = list.filter(p => p.pick).sort((a, b) => (!!b.must - !!a.must) || (kmOf(a) - kmOf(b))).slice(0, 12).sort((a, b) => kmOf(a) - kmOf(b));   // 📍 v106: επιλογή must πρώτα, εμφάνιση από το πλησιέστερο
   if (picks.length >= 2) g.push({ id: "picks", label: t.picks, icon: IC.star, items: picks, mixed: true });
+  const byOcc = list.filter(p => p.occ && p.occ.length).sort((a, b) => kmOf(a) - kmOf(b));   // v127: εστιατόρια & μπαρ ανά περίσταση
+  if (byOcc.length >= 2) g.push({ id: "occ", label: t.byOcc, icon: IC.food, items: byOcc, mixed: true, occ: true });
   CHIP_ORDER.forEach(c => { const it = list.filter(p => p.cat === c).sort((a, b) => kmOf(a) - kmOf(b)); if (it.length) g.push({ id: c, label: t.cats[c] || c, icon: CAT_IC[c], items: it }); });
   const pr = list.filter(p => PRACTICAL.indexOf(p.cat) > -1).sort((a, b) => (PRACTICAL.indexOf(a.cat) - PRACTICAL.indexOf(b.cat)) || (kmOf(a) - kmOf(b)));
   if (pr.length) g.push({ id: "practical", label: t.practical, icon: IC.market, items: pr, mixed: true });
@@ -724,9 +819,16 @@ function renderNearby(){
   const t = T(), g = nearbyGroups(); if (!g.length) return;
   if (!g.some(x => x.id === filter)) filter = g[0].id;
   const cur = g.find(x => x.id === filter);
-  el.innerHTML = `<div class="filters" role="group" aria-label="${esc(t.nav.nearby)}">${g.map(x => `<button type="button" data-f="${esc(x.id)}" aria-pressed="${x.id === filter}">${x.icon || ""}${esc(x.label)} <small>${x.items.length}</small></button>`).join("")}</div>
-    <div class="rail" id="rail">${cur.items.map(p => poiCard(p, cur.mixed)).join("")}</div>
-    ${cur.items.length > 1 ? `<p class="hint"><span>${esc(t.swipe)} →</span><span>${cur.items.length} ${esc(t.places)}</span></p>` : ""}
+  let items = cur.items, sub = "";
+  if (cur.occ) {
+    const have = OCC_ORDER.filter(o => cur.items.some(p => p.occ.indexOf(o) > -1));
+    if (have.indexOf(occF) < 0) occF = have[0] || "";
+    items = cur.items.filter(p => p.occ.indexOf(occF) > -1);
+    sub = `<div class="filters sub2" role="group" aria-label="${esc(t.byOcc)}">${have.map(o => `<button type="button" data-o="${esc(o)}" aria-pressed="${o === occF}">${esc(t.oc[o] || o)}</button>`).join("")}</div>`;
+  }
+  el.innerHTML = `<div class="filters" role="group" aria-label="${esc(t.nav.nearby)}">${g.map(x => `<button type="button" data-f="${esc(x.id)}" aria-pressed="${x.id === filter}">${x.icon || ""}${esc(x.label)} <small>${x.items.length}</small></button>`).join("")}</div>${sub}
+    <div class="rail" id="rail">${items.map(p => poiCard(p, cur.mixed)).join("")}</div>
+    ${items.length > 1 ? `<p class="hint"><span>${esc(t.swipe)} →</span><span>${items.length} ${esc(t.places)}</span></p>` : ""}
     ${cur.id === "practical" || cur.id === "food" ? dlvBlock() : ""}`;
 }
 
@@ -741,15 +843,21 @@ function render(){
   const pharm = care.filter(p => p.cat === "pharmacy").sort((a, b) => (a.km == null ? 999 : a.km) - (b.km == null ? 999 : b.km));
   const health = care.filter(p => p.cat === "health").sort((a, b) => (a.km == null ? 999 : a.km) - (b.km == null ? 999 : b.km));
   const moreCare = pharm.slice(3).concat(health);   // v104: τα 3 κοντινότερα φαρμακεία φαίνονται πάνω
-  const nearN = (D.poi || []).filter(p => CARE.indexOf(p.cat) < 0).length;
+  const nearN = (D.poi || []).filter(p => CARE.indexOf(p.cat) < 0 && !p.trip).length;
+  const trips = (D.poi || []).filter(p => p.trip && CARE.indexOf(p.cat) < 0), days = D.days || [], tips = D.tips || [];   // v127
+  const fy = (G && D.forYou) || [], fyAm = ((G && D.forYouVilla) || []).filter(a => t.am[a]);
 
   const secs = [];
   if (priv && (A.address || A.directions || (A.files && A.files.length) || A.maps)) secs.push("arrival");
   if (priv && A.wifi) secs.push("wifi");
   if (V.amenities.length || D.howto.length || D.parking || D.trash) secs.push("house");
   if (D.rules.length) secs.push("rules");
+  if (D.exp.length) secs.push("exp");                       // v127: το concierge ανεβαίνει αμέσως μετά τα πρακτικά του σπιτιού
+  if (fy.length || fyAm.length) secs.push("foryou");
+  if (days.length) secs.push("days");
   if (nearN) secs.push("nearby");
-  if (D.exp.length) secs.push("exp");
+  if (trips.length) secs.push("trips");
+  if (tips.length) secs.push("tips");
   if (D.checkout || D.steps.length) secs.push("departure");
 
   const publicUrl = location.origin + "/" + SLUG;
@@ -815,12 +923,21 @@ function render(){
       ${D.parking ? `<h3>${esc(t.parking)}</h3>${D.parking.text ? `<p>${esc(D.parking.text)}</p>` : ""}${fileList(D.parking.files)}` : ""}
       ${D.trash ? `<h3>${esc(t.trash)}</h3><p>${esc(D.trash)}</p>` : ""}</section>` : ""}
     ${secs.includes("rules") ? `<section id="rules"><h2 class="s">${esc(t.rulesT)}</h2><ul class="list">${D.rules.map(r => `<li>${esc(r)}</li>`).join("")}</ul></section>` : ""}
-    ${secs.includes("nearby") ? `<section id="nearby"><h2 class="s">${esc(t.nav.nearby)}</h2><div id="nearby-body"></div></section>` : ""}
     ${secs.includes("exp") ? `<section id="exp"><h2 class="s">${esc(t.expT)}</h2><p style="color:var(--muted)">${esc(D.mode === "guest" ? t.expSub : t.publicSub)}</p>
       <div class="rail">${D.exp.map((e,i) => `<article class="card"><div class="top${safeUrl(e.photo) ? " ph" : ""}">${safeUrl(e.photo) ? `<img src="${esc(e.photo)}" alt="" loading="lazy">` : IC.star}</div>
         <div class="in"><h4>${esc(e.name)}</h4><div class="price">${e.price ? `${esc(t.from)} <b>${esc(money(e.price))}</b>${e.pp ? ` ${esc(t.pp)}` : ""}` : esc(t.onReq)}</div>
         ${e.desc ? `<p>${esc(e.desc)}</p>` : ""}<div class="acts2"><button class="btn sm dark" type="button" data-exp="${i}">${esc(D.mode === "guest" ? t.book : t.interested)}</button></div></div></article>`).join("")}</div>
       ${D.exp.length > 1 ? `<p class="hint"><span>${esc(t.swipe)} →</span><span>${D.exp.length}</span></p>` : ""}</section>` : ""}
+    ${secs.includes("foryou") ? `<section id="foryou"><h2 class="s">${esc(t.fyT)}</h2><p class="sub">${esc(t.fySub)}</p>
+      ${fyAm.length ? `<div class="tags" style="margin:0 0 12px">${fyAm.map(a => `<span class="tag">${esc(t.am[a])}</span>`).join("")}</div>` : ""}
+      ${fy.length ? `<div class="rail">${fy.map(p => poiCard(p, true)).join("")}</div>${fy.length > 1 ? `<p class="hint"><span>${esc(t.swipe)} →</span><span>${fy.length} ${esc(t.places)}</span></p>` : ""}` : ""}</section>` : ""}
+    ${secs.includes("days") ? `<section id="days"><h2 class="s">${esc(t.nav.days)}</h2><p class="sub">${esc(t.daysSub)}</p>${days.map(dayCard).join("")}</section>` : ""}
+    ${secs.includes("nearby") ? `<section id="nearby"><h2 class="s">${esc(t.nav.nearby)}</h2><div id="nearby-body"></div></section>` : ""}
+    ${secs.includes("trips") ? `<section id="trips"><h2 class="s">${esc(t.nav.trips)}</h2><p class="sub">${esc(t.tripsSub)}</p>
+      <div class="rail">${trips.map(p => poiCard(p, true)).join("")}</div>${trips.length > 1 ? `<p class="hint"><span>${esc(t.swipe)} →</span><span>${trips.length} ${esc(t.places)}</span></p>` : ""}</section>` : ""}
+    ${secs.includes("tips") ? `<section id="tips"><h2 class="s">${esc(t.nav.tips)}</h2><p class="sub">${esc(t.tipsSub)}</p>
+      <ul class="tips">${tips.slice(0, 6).map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+      ${tips.length > 6 ? `<details><summary>${esc(t.showAll.replace("{n}", tips.length))}</summary><div class="body"><ul class="tips">${tips.slice(6).map(x => `<li>${esc(x)}</li>`).join("")}</ul></div></details>` : ""}</section>` : ""}
     ${secs.includes("departure") ? `<section id="departure"><h2 class="s">${esc(t.nav.departure)}</h2>
       ${D.checkout ? `<div class="co"><span style="color:var(--muted)">${esc(t.coBy)}</span><b>${esc(D.checkout)}</b></div>
         <div class="late"><span>${esc(t.late)}</span><a href="${wa(t.lateMsg)}" target="_blank" rel="noopener">${esc(t.lateBtn)} →</a></div>` : ""}
@@ -891,10 +1008,11 @@ document.addEventListener("click", e => {
   const c = e.target.closest("[data-copy]"); if (c) { copy(c.dataset.copy, c); return; }
   const w = e.target.closest("[data-wifi]"); if (w && D && D.arrival && D.arrival.wifi) { copy(D.arrival.wifi.pass, w, T().wifiCopied + (D.arrival.wifi.net ? " · " + D.arrival.wifi.net : "")); return; }
   const f = e.target.closest("[data-f]"); if (f) { filter = f.dataset.f; renderNearby(); const r = $("#rail"); if (r) r.scrollLeft = 0; return; }
+  const o = e.target.closest("[data-o]"); if (o) { occF = o.dataset.o; renderNearby(); const r = $("#rail"); if (r) r.scrollLeft = 0; return; }
   const x = e.target.closest("[data-exp]"); if (x) { openRequest(+x.dataset.exp); return; }
 });
 document.addEventListener("change", e => {
-  if (e.target && e.target.id === "lang") { lang = e.target.value; store.set("muses-guide-lang", lang); filter = ""; load(); }
+  if (e.target && e.target.id === "lang") { lang = e.target.value; store.set("muses-guide-lang", lang); filter = ""; occF = ""; load(); }
 });
 load();
 </script>
