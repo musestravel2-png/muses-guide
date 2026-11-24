@@ -220,6 +220,7 @@ ol.steps li::before{content:counter(s);font-family:var(--display);font-size:1.4r
 .card .top svg{width:30px;height:30px;opacity:.75}
 .card .top.ph{height:150px}
 .card .top img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.card .top .cr{position:absolute;right:0;bottom:0;z-index:1;max-width:92%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:9.5px;line-height:1.5;padding:1px 7px;color:#fff;background:rgba(0,0,0,.42);border-top-left-radius:8px;text-decoration:none}
 .badge{position:absolute;top:10px;left:10px;z-index:1;font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;font-weight:600;background:var(--accent);color:var(--on-accent);border-radius:999px;padding:4px 9px}
 .dist{position:absolute;top:10px;right:10px;z-index:1;font-size:12px;font-weight:500;background:color-mix(in srgb,var(--card) 92%,transparent);border-radius:999px;padding:3px 9px;font-variant-numeric:tabular-nums}
 .card .in{padding:12px 14px 14px;display:flex;flex-direction:column;gap:4px;flex:1}
@@ -510,6 +511,11 @@ ro:{ nav:{foryou:"Pentru dvs.",days:"Zile gata planificate",trips:"Merită drumu
 };
 for (const k in U3) { Object.assign(U[k].nav, U3[k].nav); const o = Object.assign({}, U3[k]); delete o.nav; Object.assign(U[k], o); }
 const OCC_ORDER = ["village", "bythesea", "seafood", "meze", "special", "drinks", "teens", "dessert"];
+// v128: σειρά των ενοτήτων «ανακάλυψης» ανά παρέα (η παρέα έρχεται από τον σύνδεσμο της κράτησης). Τα πρακτικά & το concierge μένουν πάντα πρώτα.
+const SEC_ORDER = { "": ["foryou","days","nearby","trips","tips"],
+  family_baby: ["foryou","nearby","tips","days","trips"], family_kids: ["foryou","days","nearby","trips","tips"], family_teens: ["foryou","days","trips","nearby","tips"],
+  couple: ["foryou","days","trips","nearby","tips"], couple_romantic: ["foryou","days","trips","nearby","tips"],
+  friends: ["foryou","nearby","days","trips","tips"], seniors: ["foryou","nearby","tips","days","trips"] };
 const DEFAULT_WA = "306987293581";
 // Αν δεν υπάρχει γραμμή «Νοσοκομείο» στο POI, ο οδηγός δείχνει πάντα αυτό
 /* v103: παράταση διαμονής + σειρά εμπειριών ανάλογα με τον καιρό */
@@ -784,7 +790,7 @@ function poiMore(p){   // v127: προαιρετικά στοιχεία κάρτ
 function distTxt(p){ const t = T(); return p.km == null ? "" : (p.trip && p.min ? t.drive.replace("{m}", p.min) : kmTxt(p.km)); }
 function poiCard(p, showCat){
   const t = T(), ph = safeUrl(p.photo), tel = telUrl(p.tel), dt = distTxt(p);
-  return `<article class="card"><div class="top${ph ? " ph" : ""}">${ph ? `<img src="${esc(ph)}" alt="" loading="lazy">` : (CAT_IC[p.cat] || IC.pin)}
+  return `<article class="card"><div class="top${ph ? " ph" : ""}">${ph ? `<img src="${esc(ph)}" alt="" loading="lazy" onerror="const b=this.parentNode;b.classList.remove('ph');const c=b.querySelector('.cr');if(c)c.remove();this.remove()">${p.cr ? (safeUrl(p.crl) ? `<a class="cr" href="${esc(safeUrl(p.crl))}" target="_blank" rel="noopener">${esc(p.cr)}</a>` : `<span class="cr">${esc(p.cr)}</span>`) : ""}` : (CAT_IC[p.cat] || IC.pin)}
       ${p.pick ? `<span class="badge">${esc(t.pick)}</span>` : ""}${dt ? `<span class="dist">${esc(dt)}</span>` : ""}</div>
     <div class="in"><h4>${esc(p.name)}</h4>${p.rating != null ? `<span class="rt">${esc(rateTxt(p))}</span>` : ""}${p.why && t.why[p.why] ? `<div class="why">${esc(t.why[p.why])}</div>` : ""}${showCat ? `<div class="meta">${esc(t.cats[p.cat] || "")}</div>` : ""}${p.tip ? `<p>${esc(p.tip)}</p>` : ""}${poiMore(p)}
       <div class="acts2"><a class="btn sm dark" href="${esc(dirUrl(p))}" target="_blank" rel="noopener">${IC.nav}${esc(t.directions)}</a>${tel ? `<a class="btn sm" href="${esc(tel)}">${IC.phone}${esc(t.call)}</a>` : ""}</div></div></article>`;
@@ -853,11 +859,9 @@ function render(){
   if (V.amenities.length || D.howto.length || D.parking || D.trash) secs.push("house");
   if (D.rules.length) secs.push("rules");
   if (D.exp.length) secs.push("exp");                       // v127: το concierge ανεβαίνει αμέσως μετά τα πρακτικά του σπιτιού
-  if (fy.length || fyAm.length) secs.push("foryou");
-  if (days.length) secs.push("days");
-  if (nearN) secs.push("nearby");
-  if (trips.length) secs.push("trips");
-  if (tips.length) secs.push("tips");
+  const DISC = SEC_ORDER[(G && G.seg) || ""] || SEC_ORDER[""];   // v128
+  const hasSec = { foryou: fy.length || fyAm.length, days: days.length, nearby: nearN, trips: trips.length, tips: tips.length };
+  DISC.forEach(s => { if (hasSec[s]) secs.push(s); });
   if (D.checkout || D.steps.length) secs.push("departure");
 
   const publicUrl = location.origin + "/" + SLUG;
@@ -948,6 +952,12 @@ function render(){
     <footer><strong>Muses</strong><span>Curated Villas Management · Rethymno, Crete</span></footer>
   </div>`;
   const fab = $("#fab"); fab.href = wa(t.hello); fab.innerHTML = IC.chat + `<span>${esc(t.writeUs)}</span>`; fab.hidden = false;
+  (function(){   // v128: οι ενότητες μπαίνουν στη σειρά της παρέας (ίδια σειρά με το μενού)
+    const els = DISC.map(s => document.getElementById(s)).filter(Boolean);
+    if (els.length < 2 || els.some(el => el.parentNode !== els[0].parentNode)) return;
+    const first = SEC_ORDER[""].map(s => document.getElementById(s)).find(Boolean), mark = document.createComment("disc");
+    first.before(mark); els.forEach(el => mark.before(el)); mark.remove();
+  })();
   renderNearby(); renderWeather(); watchSections();
   const drawQR = () => { try { if (window.QRCode) new QRCode($("#qr"), { text: publicUrl, width: 112, height: 112, colorDark: "#1C1917", colorLight: "#ffffff", correctLevel: QRCode.CorrectLevel.M }); const qi = $("#qr").querySelector("img"); if (qi) qi.alt = "QR"; } catch (e) {} };
   if (window.QRCode) drawQR(); else window.addEventListener("load", drawQR, { once: true });
